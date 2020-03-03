@@ -5,8 +5,8 @@ const port = 5000;
 
 app.set('json spaces', 2);
 
-app.get('/test', (res, req) => {
-  req.send(
+app.get('/test', (req, res) => {
+  res.send(
     {
       status: 'success'
     }
