@@ -1,46 +1,48 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-import config from 'config';
 import { IRequest, IResponse } from 'types';
 
 import pool from './dbPoolService';
 
+import config from '../config';
+
 interface IAuthService {
-  signup: (req: IRequest, res: IResponse) => void;
-  login: (req: IRequest, res: IResponse) => void;
+  signUp: (req: IRequest, res: IResponse) => void;
+  signIn: (req: IRequest, res: IResponse) => void;
 }
 
 class AuthService implements IAuthService {
-  signup = async (req: IRequest, res: IResponse) => {
+  signUp = async (req: IRequest, res: IResponse) => {
     try {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
       const user = { 
         name: req.body.name, 
+        surname: req.body.surname,
         email: req.body.email, 
-        password: hashedPassword 
+        password: hashedPassword
       };
 
       pool.query(
-        'INSERT INTO users (name, email, password, role) VALUES ($1, $2, $3, $4)', 
-        [user.name, user.email, user.password, 'user'], 
+        'INSERT INTO users (name, surname, email, password, role) VALUES ($1, $2, $3, $4, $5)', 
+        [user.name, user.surname, user.email, user.password, 'user'], 
         (error, result) => {
           if (error) {
-            res.status(400).send(error);
+            return res.status(400).send(error);
           }
           
           res.status(201).send({
             success: true
           });
         });
-    } catch {
+    } catch (e) {
       res.status(500).send({
         success: false
       });
     }
   }
 
-  login = async (req: IRequest, res: IResponse): Promise<void> => {
+  signIn = async (req: IRequest, res: IResponse): Promise<void> => {
     pool.query('SELECT * FROM users WHERE email = $1', [req.body.email], async (error, result) => {
       if (error) {
         res.status(400).send(error);

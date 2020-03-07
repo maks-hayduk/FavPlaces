@@ -1,3 +1,6 @@
 import pool from './dbPoolService';
+import AuthService from './authService';
 
-export { pool };
+const authService = new AuthService();
+
+export { pool, authService };
