@@ -1,55 +1,31 @@
 import * as React from 'react';
-import { Layer, Feature, Popup, Marker, Cluster } from 'react-mapbox-gl';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
-import { Map } from 'components';
+import { RouteConst } from 'consts';
 import { styled } from 'theme';
+
+import Map from '../Map';
+import Login from '../Login';
 
 const Wrapper = styled.div`
   min-height: 100vh;
   width: 100%;
+  background-color: ${({ theme }) => theme.color.ironLight};
 `;
-
-const clusterMarker = (coordinates: [number, number]) => (
-  <Marker coordinates={coordinates}></Marker>
-);
 
 interface IRoot {}
 
 const Root: React.FC<IRoot> = ({  }) => {
 
   return (
-    <Map
-      style="mapbox://styles/mapbox/streets-v9"
-      containerStyle={{
-        height: '100vh',
-        width: '100vw'
-      }}
-    >
-      <Layer type="symbol" id="marker" layout={{ 'icon-image': 'marker-15' }}>
-        <Feature coordinates={[-0.481747846041145, 51.3233379650232]} onClick={(e: any) => console.log(e)}/>
-      </Layer>
-      <Popup
-        coordinates={[-0.481747846041145, 51.3233379650232]}
-      >
-        <h1>Popup</h1>
-      </Popup>
-    </Map>
+    <Wrapper>
+      <Switch>
+        <Route path={RouteConst.Map} component={Map}/>
+        <Route path={RouteConst.Login} component={Login}/>
+        <Redirect to={RouteConst.Login}/>
+      </Switch>
+    </Wrapper>
   );
 };
 
 export default Root;
-
-
-{/* <Cluster ClusterMarkerFactory={clusterMarker}>
-  {
-    places.features.map((feature, key) =>
-      <Marker
-        key={key}
-        style={styles.marker}
-        coordinates={feature.geometry.coordinates}
-        onClick={this.onMarkerClick.bind(this, feature.geometry.coordinates)}>
-        M
-      </Marker>
-    )
-  }
-</Cluster> */}

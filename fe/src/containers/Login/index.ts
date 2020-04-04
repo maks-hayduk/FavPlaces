@@ -5,7 +5,7 @@ import {
   IStoreState
 } from 'store';
 
-import RootContainer from './Root';
+import LoginContainer from './Login';
 
 const mapStateToProps = (state: IStoreState) => ({
 
@@ -17,9 +17,9 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
     dispatch
   );
 
-export const ConnectedRootContainer = connect(
+export const ConnectedLoginContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(RootContainer);
+)(LoginContainer);
 
-export default ConnectedRootContainer;
+export default ConnectedLoginContainer;
