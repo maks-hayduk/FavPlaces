@@ -16,7 +16,7 @@ export const Input = styled.input<IFormComponent>`
   border: solid 1px ${({ invalid, theme }) => (invalid ? theme.color.red : theme.color.gray)};
   transition: border-color 100ms;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 3px;
 
   &:disabled {
     opacity: 0.5;

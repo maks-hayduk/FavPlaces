@@ -1,3 +1,6 @@
+import { Box } from '@rebass/grid';
+import * as React from 'react';
+
 import { css, styled } from 'theme';
 
 export const sharedStyle = css`
@@ -19,6 +22,16 @@ interface IBtnProps {
 
 interface ITextButtonProps {
   removal?: boolean;
+}
+
+export interface IButtonProps {
+  disabled?: boolean;
+  id?: string;
+  onClick?(): void;
+}
+
+interface IIconButtonProps extends IButtonProps {
+  icon: React.ReactNode;
 }
 
 export const Button = styled.button<IBtnProps>`
@@ -64,3 +77,74 @@ export const TextButton = styled.button<ITextButtonProps>`
     cursor: default;
   }
 `;
+
+interface IWrapperProps {
+  primary?: boolean;
+}
+
+const Wrapper = styled.div<IWrapperProps>`
+  ${({ theme, primary }) =>
+    primary
+      ? `
+  width: 18px;
+  height: 18px;
+  text-align: center;
+  margin: auto;
+  border-radius: 2px;
+  background-color: ${theme.color.primary};
+  color: red;
+  `
+      : ''}
+`;
+
+const StyledTextButton = styled(TextButton)`
+  display: flex;
+  margin: auto;
+  align-items: center;
+  div {
+    display: flex;
+  }
+
+  svg {
+    margin: auto;
+    display: block;
+  }
+
+  .text-label {
+    color: ${({ theme }) => theme.color.primary};
+  }
+`;
+
+interface IIconTextButtonProps {
+  primary?: boolean;
+  Icon: React.ReactNode;
+  text?: string;
+  className?: string;
+  type?: string;
+  onClick?: () => void;
+  disabled?: boolean;
+  id?: string;
+}
+
+export const IconTextButton: React.FC<IIconTextButtonProps> = ({
+  primary = true,
+  text,
+  Icon,
+  className,
+  onClick,
+  disabled,
+  id
+}) => {
+  return (
+    <div className={className} id={id ? id : '#'}>
+      <StyledTextButton type="button" className="textbutton" onClick={onClick} disabled={disabled}>
+        {Icon && <Wrapper primary={primary}>{Icon}</Wrapper>}
+        {text && (
+          <Box className="text-label" ml="7px">
+            {text}
+          </Box>
+        )}
+      </StyledTextButton>
+    </div>
+  );
+};

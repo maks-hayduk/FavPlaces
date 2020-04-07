@@ -3,7 +3,7 @@ import { Form, Field, Formik } from 'formik';
 import { Link } from 'react-router-dom';
 
 import { RouteConst } from 'consts';
-import { InputField, Button, TextButton, H3 } from 'components';
+import { InputField, Button, IconTextButton, H3, PrimaryLeftArrowIcon } from 'components';
 import { styled } from 'theme';
 
 const LoginWrapper = styled.div`
@@ -19,17 +19,20 @@ const LoginWrapper = styled.div`
     align-items: center;
     width: 40%;
 
-    & > * {
-      margin-bottom: 15px;
+    .back-btn {
+      width: 100%;
+      display: flex;
     }
 
-    button {
-      margin: 0 10px;
+    & > * {
+      margin-bottom: 15px;
     }
   }
 `;
 
 interface IFormikValues {
+  name: string;
+  surname: string;
   email: string;
   password: string;
 }
@@ -41,6 +44,8 @@ const LoginContainer: React.FC<ILoginContainer> = () => {
     <LoginWrapper>
       <Formik<IFormikValues>
         initialValues={{
+          name: '',
+          surname: '',
           email: '',
           password: ''
         }}
@@ -48,7 +53,28 @@ const LoginContainer: React.FC<ILoginContainer> = () => {
       >
         {({ isSubmitting }) => (
           <Form>
+            <div className="back-btn"> 
+              <Link to={RouteConst.Login}>
+                <IconTextButton
+                  text="Back to login"
+                  Icon={<PrimaryLeftArrowIcon />}
+                  primary={false}
+                />
+              </Link>
+            </div>
             <H3>Login</H3>
+            <Field
+              component={InputField}
+              label="Name"
+              placeholder="Input your name"
+              name="name"
+            />
+            <Field
+              component={InputField}
+              label="Surname"
+              placeholder="Input your surname"
+              name="surname"
+            />
             <Field
               component={InputField}
               label="Email"
@@ -62,16 +88,9 @@ const LoginContainer: React.FC<ILoginContainer> = () => {
               name="password"
               type="password"
             />
-            <div>
-              <Button type="submit" disabled={isSubmitting}>
-                Proceed
-              </Button>
-              <Link to={RouteConst.SignUp}>
-                <TextButton>
-                  Sign up
-                </TextButton>
-              </Link>
-            </div>
+            <Button type="submit" disabled={isSubmitting}>
+              Sign up
+            </Button>
           </Form>
         )}
       </Formik>
