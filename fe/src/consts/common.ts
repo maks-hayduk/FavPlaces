@@ -1,5 +1,7 @@
 export enum RouteConst {
+  Root = '/',
+  Auth = '/auth',
   Map = '/map',
-  Login = '/login',
-  SignUp = '/signup'
+  Login = '/auth/login',
+  SignUp = '/auth/signup',
 }
