@@ -3,24 +3,26 @@ import { bindActionCreators, Dispatch } from 'redux';
 
 import {
   IStoreState,
-  selectMenuStatus
+  signInAction
 } from 'store';
 
-import RootContainer from './Root';
+import LoginContainer from './Login';
 
 const mapStateToProps = (state: IStoreState) => ({
-  isMenuOpen: selectMenuStatus(state)
+
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
-    {},
+    {
+      signInAction
+    },
     dispatch
   );
 
-export const ConnectedRootContainer = connect(
+export const ConnectedLoginContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(RootContainer);
+)(LoginContainer);
 
-export default ConnectedRootContainer;
+export default ConnectedLoginContainer;

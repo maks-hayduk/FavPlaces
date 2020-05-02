@@ -1,20 +1,31 @@
 import * as React from 'react';
-import { Route, Switch } from 'react-router';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
+import { RouteConst } from 'consts';
 import { styled } from 'theme';
 
+import AuthorizedRoot from './AuthorizedRoot';
+
+import AuthContainer from '../Auth';
+
 const Wrapper = styled.div`
-  min-height: 100vh;
+  height: 100vh;
   width: 100%;
+  background-color: ${({ theme }) => theme.color.ironLight};
 `;
 
-interface IRoot {}
+interface IRoot {
+  isMenuOpen: boolean;
+}
 
-const Root: React.FC<IRoot> = ({  }) => {
+const Root: React.FC<IRoot> = ({ isMenuOpen }) => {
 
   return (
     <Wrapper>
-      foo
+      <Switch>
+        <Route path={RouteConst.Auth} component={AuthContainer} />
+        <Route path={RouteConst.Root} render={() => <AuthorizedRoot isMenuOpen={isMenuOpen}/>} />
+      </Switch>
     </Wrapper>
   );
 };

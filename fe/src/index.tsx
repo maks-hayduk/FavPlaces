@@ -4,6 +4,8 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { Route } from 'react-router';
 
+import 'services';
+
 import Root from './containers/Root';
 import * as serviceWorker from './serviceWorker';
 import store, { history } from './store';

@@ -3,10 +3,11 @@ import { bindActionCreators, Dispatch } from 'redux';
 
 import {
   IStoreState,
+  toggleMenuStatus,
   selectMenuStatus
 } from 'store';
 
-import RootContainer from './Root';
+import SideBarContainer from './SideBar';
 
 const mapStateToProps = (state: IStoreState) => ({
   isMenuOpen: selectMenuStatus(state)
@@ -14,13 +15,15 @@ const mapStateToProps = (state: IStoreState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
-    {},
+    {
+      toggleMenuStatus
+    },
     dispatch
   );
 
-export const ConnectedRootContainer = connect(
+export const ConnectedSideBartContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(RootContainer);
+)(SideBarContainer);
 
-export default ConnectedRootContainer;
+export default ConnectedSideBartContainer;

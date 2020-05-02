@@ -2,14 +2,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
 import {
-  IStoreState,
-  selectMenuStatus
+  IStoreState
 } from 'store';
 
-import RootContainer from './Root';
+import AuthContainer from './Auth';
 
 const mapStateToProps = (state: IStoreState) => ({
-  isMenuOpen: selectMenuStatus(state)
+
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
@@ -18,9 +17,9 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
     dispatch
   );
 
-export const ConnectedRootContainer = connect(
+export const ConnectedLoginContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(RootContainer);
+)(AuthContainer);
 
-export default ConnectedRootContainer;
+export default ConnectedLoginContainer;
