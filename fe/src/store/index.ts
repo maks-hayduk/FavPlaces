@@ -3,7 +3,6 @@ import { createBrowserHistory } from 'history';
 import createRootReducer from './rootReducer';
 
 import createMiddleware from './middleware';
-// import {reducer as notifications} from 'react-notification-system-redux';
 
 export const history = createBrowserHistory();
 
@@ -22,5 +21,5 @@ const store = createStore(
 
 export default store;
 
-// export * from './domains';
+export * from './domains';
 export * from './types';

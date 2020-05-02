@@ -27,7 +27,8 @@
     "seamless-immutable": "^7.1.4",
     "styled-components": "4.2.0",
     "superagent": "^5.1.0",
-    "tslint-config-prettier": "^1.18.0"
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.8.3"
   },
   "devDependencies": {
     "@types/jest": "24.0.13",
@@ -44,8 +45,7 @@
     "@types/superagent": "^4.1.4",
     "tslint": "^5.20.1",
     "tslint-config-airbnb": "^5.11.2",
-    "tslint-react": "^4.1.0",
-    "typescript": "3.5.1"
+    "tslint-react": "^4.1.0"
   },
   "scripts": {
     "start": "react-scripts start",

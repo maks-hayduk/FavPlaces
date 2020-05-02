@@ -2,7 +2,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
 import {
-  IStoreState
+  IStoreState,
+  signUpAction
 } from 'store';
 
 import SignUpContainer from './SignUp';
@@ -13,7 +14,9 @@ const mapStateToProps = (state: IStoreState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
-    {},
+    {
+      signUpAction
+    },
     dispatch
   );
 

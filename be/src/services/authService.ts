@@ -65,17 +65,16 @@ class AuthService implements IAuthService {
   
           res.status(200).send({
             token,
-            success: true,
             name: user.name, 
             id: user.id
           });
         } else {
-          res.send({
+          res.status(400).send({
             message: 'Not allowed'
           });
         }
       } catch {
-        res.status(500).send();
+        res.status(400).send();
       }
     });
   }

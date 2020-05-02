@@ -14,15 +14,17 @@ const Wrapper = styled.div`
   background-color: ${({ theme }) => theme.color.ironLight};
 `;
 
-interface IRoot {}
+interface IRoot {
+  isMenuOpen: boolean;
+}
 
-const Root: React.FC<IRoot> = ({  }) => {
+const Root: React.FC<IRoot> = ({ isMenuOpen }) => {
 
   return (
     <Wrapper>
       <Switch>
         <Route path={RouteConst.Auth} component={AuthContainer} />
-        <Route path={RouteConst.Root} component={AuthorizedRoot} />
+        <Route path={RouteConst.Root} render={() => <AuthorizedRoot isMenuOpen={isMenuOpen}/>} />
       </Switch>
     </Wrapper>
   );

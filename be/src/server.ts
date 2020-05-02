@@ -13,7 +13,8 @@ app.use(cors());
 app.set('json spaces', 2);
 app.use(bodyParser.json());
 
-app.post('/signup', authService.signUp);
+app.post('/api/signup', authService.signUp);
+app.post('/api/signin', authService.signIn);
 
 app.listen(port, () => {
   console.log(`Back-end started on localhost:${port}`);

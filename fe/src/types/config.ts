@@ -1,5 +1,6 @@
 export interface IEnvironmentConfig {
   mapBoxKey: string;
+  mapBoxApiUrl: string;
   apiUrl: string;
 }
 

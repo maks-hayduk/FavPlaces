@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { RouteConst } from 'consts';
 import { InputField, Button, TextButton, H3 } from 'components';
 import { styled } from 'theme';
+import { SignInAction } from 'store';
 
 const LoginWrapper = styled.div`
   height: 100vh;
@@ -34,9 +35,11 @@ interface IFormikValues {
   password: string;
 }
 
-interface ILoginContainer {}
+interface ILoginContainer {
+  signInAction: SignInAction;
+}
 
-const LoginContainer: React.FC<ILoginContainer> = () => {
+const LoginContainer: React.FC<ILoginContainer> = ({ signInAction }) => {
   return (
     <LoginWrapper>
       <Formik<IFormikValues>
@@ -44,7 +47,7 @@ const LoginContainer: React.FC<ILoginContainer> = () => {
           email: '',
           password: ''
         }}
-        onSubmit={() => null}
+        onSubmit={(values) => signInAction(values)}
       >
         {({ isSubmitting }) => (
           <Form>

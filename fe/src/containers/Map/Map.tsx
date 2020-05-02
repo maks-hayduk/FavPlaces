@@ -1,55 +1,41 @@
 import * as React from 'react';
-import { Layer, Feature, Popup, Marker, Cluster } from 'react-mapbox-gl';
+import { ImmutableObjectMixin } from 'seamless-immutable';
+import ReactMapboxGL, { Layer, Feature, Popup, Marker, Cluster, MapContext } from 'react-mapbox-gl';
 
-import { Map } from 'components';
+import { Map, Button } from 'components';
 import { styled } from 'theme';
+import { GetFeatureDataAction, IFeature } from 'store';
+import { Coords } from 'types';
 
-const Wrapper = styled.div`
-  min-height: 100vh;
-  width: 100%;
-`;
+interface IMapContainer {
+  getFeatureDataAction: GetFeatureDataAction;
+  currentFeature: IFeature;
+}
 
-const clusterMarker = (coordinates: [number, number]) => (
-  <Marker coordinates={coordinates}></Marker>
-);
-
-interface IMapContainer {}
-
-const MapContainer: React.FC<IMapContainer> = ({  }) => {
+const MapContainer: React.FC<IMapContainer> = ({ getFeatureDataAction, currentFeature }) => {
+  const [mapCenter, setMapCenter] = React.useState<Coords>([24.03354921447226, 49.83588835908614]);
 
   return (
     <Map
+      zoom={[16]}
+      center={mapCenter}
       style="mapbox://styles/mapbox/streets-v9"
+      onClick={(_, event: any) => {
+        getFeatureDataAction(Object.values(event.lngLat) as Coords);
+      }}
       containerStyle={{
         height: '100vh',
         width: '100vw'
       }}
-    >
-      <Layer type="symbol" id="marker" layout={{ 'icon-image': 'marker-15' }}>
-        <Feature coordinates={[-0.481747846041145, 51.3233379650232]} onClick={(e: any) => console.log(e)}/>
-      </Layer>
+    >{currentFeature.id ? (
       <Popup
-        coordinates={[-0.481747846041145, 51.3233379650232]}
+        coordinates={currentFeature.center.asMutable()}
       >
-        <h1>Popup</h1>
+        <h1>{currentFeature.text}</h1>
       </Popup>
+    ) : <></>}
     </Map>
   );
 };
 
 export default MapContainer;
-
-
-{/* <Cluster ClusterMarkerFactory={clusterMarker}>
-  {
-    places.features.map((feature, key) =>
-      <Marker
-        key={key}
-        style={styles.marker}
-        coordinates={feature.geometry.coordinates}
-        onClick={this.onMarkerClick.bind(this, feature.geometry.coordinates)}>
-        M
-      </Marker>
-    )
-  }
-</Cluster> */}

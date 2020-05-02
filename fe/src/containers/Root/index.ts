@@ -2,13 +2,14 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
 import {
-  IStoreState
+  IStoreState,
+  selectMenuStatus
 } from 'store';
 
 import RootContainer from './Root';
 
 const mapStateToProps = (state: IStoreState) => ({
-
+  isMenuOpen: selectMenuStatus(state)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>

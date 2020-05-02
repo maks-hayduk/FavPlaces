@@ -13,15 +13,34 @@ const Wrapper = styled.div`
 
   position: relative;
   overflow: hidden;
+
+  .burger-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 50;
+  }
 `;
 
-interface IAuthorizedRoot {}
+const OpacityLayout = styled.div`
+  background-color: black;
+  position: absolute;
+  height: 100vh;
+  width: 100%;
+  z-index: 75;
+  opacity: 0.3;
+`;
 
-const AuthorizedRoot: React.FC<IAuthorizedRoot> = ({  }) => {
+interface IAuthorizedRoot {
+  isMenuOpen: boolean;
+}
+
+const AuthorizedRoot: React.FC<IAuthorizedRoot> = ({ isMenuOpen }) => {
 
   return (
     <Wrapper>
       <SideBar />
+      {isMenuOpen && <OpacityLayout />}
       <Switch>
         <Route path={RouteConst.Map} component={Map}/>
         <Redirect to={RouteConst.Map} />
