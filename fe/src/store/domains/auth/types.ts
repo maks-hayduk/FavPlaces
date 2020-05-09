@@ -7,15 +7,19 @@ export interface ISignUpModel {
   password: string;
 }
 
-export interface ISignInModel {
+export interface ILoginModel {
   email: string;
   password: string;
 }
 
-export interface ISignInResponse {
+export interface ILoginResponse {
   id: number;
   token: string;
   name: string;
 }
 
-export interface IAuthState extends ImmutableObject<ISignInResponse> {}
+export interface IAuthInitialState {
+  token: string;
+}
+
+export interface IAuthState extends ImmutableObject<IAuthInitialState> {}

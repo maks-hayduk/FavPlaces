@@ -3,7 +3,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 
 import {
   IStoreState,
-  signInAction
+  handleLoginAction
 } from 'store';
 
 import LoginContainer from './Login';
@@ -15,7 +15,7 @@ const mapStateToProps = (state: IStoreState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
-      signInAction
+      handleLoginAction
     },
     dispatch
   );

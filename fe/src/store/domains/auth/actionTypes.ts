@@ -1,13 +1,13 @@
 import { IPromiseAction } from 'types';
 
-import { ISignInResponse } from './types';
+import { ILoginResponse } from './types';
 
 export enum AuthActionTypeKeys {
   SIGN_UP = 'auth/SIGN_UP',
   SIGN_UP_FULFILLED = 'auth/SIGN_UP_FULFILLED',
 
-  SIGN_IN = 'auth/SIGN_IN',
-  SIGN_IN_FULFILLED = 'auth/SIGN_IN_FULFILLED',
+  LOGIN = 'auth/LOGIN',
+  LOGIN_FULFILLED = 'auth/LOGIN_FULFILLED',
 }
 
 export interface ISignUpActionType 
@@ -16,12 +16,12 @@ export interface ISignUpActionType
 export interface ISignUpFulfilledActionType 
   extends IPromiseAction<AuthActionTypeKeys.SIGN_UP_FULFILLED, { success: boolean }> {}
 
-export interface ISignInActionType 
-  extends IPromiseAction<AuthActionTypeKeys.SIGN_IN, Promise<ISignInResponse>> {}
+export interface ILoginActionType 
+  extends IPromiseAction<AuthActionTypeKeys.LOGIN, Promise<ILoginResponse>> {}
 
-export interface ISignInFulfilledActionType 
-  extends IPromiseAction<AuthActionTypeKeys.SIGN_IN_FULFILLED, ISignInResponse> {}
+export interface ILoginFulfilledActionType 
+  extends IPromiseAction<AuthActionTypeKeys.LOGIN_FULFILLED, ILoginResponse> {}
 
 export type IAuthActionTypes =
   | ISignUpFulfilledActionType
-  | ISignInFulfilledActionType;
+  | ILoginFulfilledActionType;
