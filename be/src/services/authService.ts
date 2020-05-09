@@ -9,7 +9,7 @@ import config from '../config';
 
 interface IAuthService {
   signUp: (req: IRequest, res: IResponse) => void;
-  signIn: (req: IRequest, res: IResponse) => void;
+  login: (req: IRequest, res: IResponse) => void;
 }
 
 class AuthService implements IAuthService {
@@ -42,7 +42,7 @@ class AuthService implements IAuthService {
     }
   }
 
-  signIn = async (req: IRequest, res: IResponse): Promise<void> => {
+  login = async (req: IRequest, res: IResponse): Promise<void> => {
     pool.query('SELECT * FROM users WHERE email = $1', [req.body.email], async (error, result) => {
       if (error) {
         res.status(400).send(error);
