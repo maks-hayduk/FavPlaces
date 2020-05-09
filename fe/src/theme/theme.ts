@@ -20,6 +20,8 @@ export interface ITheme {
     ironLight: string;
     
     red: string;
+
+    yellow: string;
   };
 }
 
@@ -48,6 +50,8 @@ export const theme: ITheme = {
     iron: 'rgba(25, 50, 63, 0.2)',
     ironLight: '#fafafa',
 
-    red: '#E62652'
+    red: '#E62652',
+
+    yellow: '#FEDD00',
   }
 };

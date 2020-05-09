@@ -3,9 +3,6 @@ import { Notification } from 'react-notification-system';
 import { Action } from 'redux';
 
 import { NotificationBlock } from 'components';
-import { i18nService } from 'services';
-
-const i18n = i18nService.getInstance();
 
 export interface INotifOptions {
   title: string;
@@ -20,8 +17,7 @@ export const getConfig = (
   Icon: React.ReactNode
 ): Notification => ({
   autoDismiss,
-  children: <NotificationBlock message={message ? i18n.t(message) : ' '} Icon={Icon} title={i18n.t(title)} />,
-  // tslint:disable-next-line: object-shorthand-properties-first
+  children: <NotificationBlock message={message ? message : ' '} Icon={Icon} title={title} />,
   position
 });
 

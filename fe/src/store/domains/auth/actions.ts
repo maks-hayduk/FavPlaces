@@ -1,5 +1,8 @@
+import { push } from 'connected-react-router';
+
 import { IThunk, IPromiseActionResponse } from 'types';
 import { apiClientService } from 'services';
+import { RouteConst, StorageConst } from 'consts';
 
 import * as api from './api';
 import { AuthActionTypeKeys, ISignUpActionType, ILoginActionType } from './actionTypes';
@@ -27,7 +30,7 @@ export const handleLoginAction: HandleLoginAction = (data) => async (dispatch, g
     const { value } = await dispatch(loginAction(data)) as IPromiseActionResponse<ILoginResponse>;
 
     if (value?.token) {
-      window.localStorage.setItem('AUTH_TOKEN', value.token);
+      window.localStorage.setItem(StorageConst.AuthToken, value.token);
       apiClientService.setDefaultHeaders('Authorization', `Basic ${value.token}`);
     }
 
@@ -35,6 +38,7 @@ export const handleLoginAction: HandleLoginAction = (data) => async (dispatch, g
       title: 'You have been successfully logged in'
     }));
 
+    dispatch(push(RouteConst.Map));
   } catch (e) {
     dispatch(errorNotifAction({
       title: 'Something went wrong'
