@@ -1,20 +1,17 @@
-import { ImmutableObject, ImmutableArray } from 'seamless-immutable';
+import { ImmutableObject } from 'seamless-immutable';
 
-export interface IFeature {
-  id: string;
-  center: ImmutableArray<number>;
-  place_name: string;
-  place_type: ImmutableArray<string>;
-  properties: {
-    category: ImmutableArray<string>;
-    address: string;
-    landmark: boolean;
-  };
-  text: string;
+export interface IPlaceModel {
+  id?: number;
+  title: string;
+  latitude: number;
+  longtitude: number;
+  datetime: string;
+  description?: string;
 }
 
 export interface IPlacesInitialState {
-  currentFeature: IFeature;
+  data: IPlaceModel[];
+  selectedId: number;
 }
 
 export interface IPlacesState extends ImmutableObject<IPlacesInitialState> {}

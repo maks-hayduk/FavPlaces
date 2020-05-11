@@ -6,6 +6,7 @@ import { styled } from 'theme';
 
 import Map from '../Map';
 import SideBar from '../SideBar';
+import { ToggleMenuStatus } from 'store';
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -33,14 +34,14 @@ const OpacityLayout = styled.div`
 
 interface IAuthorizedRoot {
   isMenuOpen: boolean;
+  toggleMenuStatus: ToggleMenuStatus;
 }
 
-const AuthorizedRoot: React.FC<IAuthorizedRoot> = ({ isMenuOpen }) => {
-
+const AuthorizedRoot: React.FC<IAuthorizedRoot> = ({ isMenuOpen, toggleMenuStatus }) => {
   return (
     <Wrapper>
       <SideBar />
-      {isMenuOpen && <OpacityLayout />}
+      {isMenuOpen && <OpacityLayout onClick={() => toggleMenuStatus(false)}/>}
       <Switch>
         <Route path={RouteConst.Map} component={Map}/>
         <Redirect to={RouteConst.Map} />

@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 app.post('/api/signup', authService.signUp);
 app.post('/api/signin', authService.login);
 
-app.get('/api/places', middleware.checkToken, placesService.addPlace);
+app.post('/api/places', middleware.checkToken, placesService.addPlace);
 
 app.listen(port, () => {
   console.log(`Back-end started on localhost:${port}`);

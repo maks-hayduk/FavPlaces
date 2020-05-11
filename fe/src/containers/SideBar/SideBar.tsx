@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { ToggleMenuStatus } from 'store';
-import { BurgerIcon, DoubleShewron } from 'components';
+import { ToggleMenuStatus, IPlaceModel } from 'store';
+import { BurgerIcon, DoubleShewron, PlaceItem } from 'components';
 import { styled } from 'theme';
 
 interface IWrapperProps {
@@ -14,6 +14,7 @@ const Wrapper = styled.div<IWrapperProps>`
   position: absolute;
   background-color: ${({ theme }) => theme.color.white};
   z-index: 100;
+  padding: 15px;
 
   ${({ isMenuOpen }) =>
     isMenuOpen
@@ -32,30 +33,19 @@ const Wrapper = styled.div<IWrapperProps>`
     right: 20px;
     top: 20px;
   }
+
+  .favorite-place-block {
+    margin-top: 50px;
+  }
 `;
 
 interface ISideBarProps {
   isMenuOpen: boolean;
   toggleMenuStatus: ToggleMenuStatus;
+  places: IPlaceModel[];
 }
 
-const SideBar: React.FC<ISideBarProps> = ({ toggleMenuStatus, isMenuOpen }) => {
-  const menuRef = React.useRef<HTMLDivElement>(null);
-
-  const handleClick = React.useCallback((e: any) => {
-    if (menuRef && menuRef.current && !menuRef.current.contains(e.target)) {
-      toggleMenuStatus(false);
-    }
-  }, [menuRef]);
-
-  React.useEffect(() => {
-    window.addEventListener('mousedown', handleClick);
-
-    return () => {
-      window.removeEventListener('mousedown', handleClick);
-    };
-  }, []);
-
+const SideBar: React.FC<ISideBarProps> = ({ toggleMenuStatus, isMenuOpen, places }) => {
   return (
     <>
       {!isMenuOpen && (
@@ -63,9 +53,17 @@ const SideBar: React.FC<ISideBarProps> = ({ toggleMenuStatus, isMenuOpen }) => {
           <BurgerIcon />
         </div>
       )}
-      <Wrapper isMenuOpen={isMenuOpen} ref={menuRef}>
+      <Wrapper isMenuOpen={isMenuOpen}>
         <div className="close-side-bar-btn" onClick={() => toggleMenuStatus(false)}>
           <DoubleShewron />
+        </div>
+        <div className="favorite-place-block">
+          {places?.map(place => (
+            <PlaceItem 
+              key={String(place.id)}
+              place={place}
+            />
+          ))}
         </div>
       </Wrapper>
     </>

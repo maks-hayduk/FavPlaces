@@ -8,7 +8,11 @@ export enum AuthActionTypeKeys {
 
   LOGIN = 'auth/LOGIN',
   LOGIN_FULFILLED = 'auth/LOGIN_FULFILLED',
+
+  GET_PARAM_TOKEN = 'auth/GET_PARAM_TOKEN',
 }
+
+export interface IGetParamTokenFulfilledActionType extends IPromiseAction<AuthActionTypeKeys.GET_PARAM_TOKEN, string> {}
 
 export interface ISignUpActionType 
   extends IPromiseAction<AuthActionTypeKeys.SIGN_UP, Promise<{ success: boolean }>> {}
@@ -24,4 +28,5 @@ export interface ILoginFulfilledActionType
 
 export type IAuthActionTypes =
   | ISignUpFulfilledActionType
-  | ILoginFulfilledActionType;
+  | ILoginFulfilledActionType
+  | IGetParamTokenFulfilledActionType;

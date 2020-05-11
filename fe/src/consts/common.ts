@@ -9,3 +9,7 @@ export enum RouteConst {
 export enum StorageConst {
   AuthToken = 'AUTH_TOKEN'
 }
+
+export enum DateFormatConst {
+  DefaultDateTime = 'YYYY-MM-DD HH:mm:ss'
+}

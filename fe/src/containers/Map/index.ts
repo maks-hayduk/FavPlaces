@@ -3,20 +3,21 @@ import { bindActionCreators, Dispatch } from 'redux';
 
 import {
   IStoreState,
-  getFeatureDataAction,
-  selectCurrentFeature
+  handleAddPlaceAction,
+  getPlacesAction
 } from 'store';
 
 import MapContainer from './Map';
 
 const mapStateToProps = (state: IStoreState) => ({
-  currentFeature: selectCurrentFeature(state)
+
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
-      getFeatureDataAction
+      handleAddPlaceAction,
+      getPlacesAction
     },
     dispatch
   );

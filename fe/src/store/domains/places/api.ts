@@ -1,6 +1,12 @@
-import config from 'config';
-import { mapApiService } from 'services';
-import { Coords } from 'types';
+import { apiClientService } from 'services';
 
-export const getFeatureData = (coords: Coords) => 
-  mapApiService.get(`/geocoding/v5/mapbox.places/${coords[0]},${coords[1]}.json?access_token=${config.mapBoxKey}&types=poi`);
+import { IPlaceModel } from './types';
+
+export const addPlace = (data: IPlaceModel) => apiClientService.post('/places', { data });
+
+export const getPlaces = () => apiClientService.get('/places');
+
+export const updatePlace = (placeId: number, data: IPlaceModel) => 
+  apiClientService.post(`/places/${placeId}`, { data });
+
+export const deletePlace = (placeId: number) => apiClientService.post(`/places/${placeId}`);

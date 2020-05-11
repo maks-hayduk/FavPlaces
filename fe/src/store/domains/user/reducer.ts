@@ -1,13 +1,16 @@
 import Immutable, { ImmutableObject } from 'seamless-immutable';
 
-import { UserActionTypes } from './actionTypes';
+import { UserActionTypes, UserActionTypeKeys } from './actionTypes';
 import { IUserInitialState } from './types';
 
 import { AuthActionTypeKeys } from '../auth'
 
 const userInitialState: ImmutableObject<IUserInitialState> = Immutable({
   id: 0,
-  name: ''
+  name: '',
+  surname: '',
+  email: '',
+  role: ''
 });
 
 const userReducer = (state = userInitialState, action: UserActionTypes) => {
@@ -17,6 +20,10 @@ const userReducer = (state = userInitialState, action: UserActionTypes) => {
 
       return state.merge(payload);
     }
+
+    case UserActionTypeKeys.GET_DETAILS_FULFILLED:
+      return state.merge(action.payload);
+
     default:
       return state;
   }

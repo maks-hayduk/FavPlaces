@@ -1,3 +1,3 @@
 import { apiClientService } from 'services';
 
-export const getDetails = () => apiClientService.get('/api/user/');
+export const getDetails = () => apiClientService.get('/user');

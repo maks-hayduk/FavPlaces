@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { Notification } from 'react-notification-system';
 
 import { Notifications } from 'components';
 import { RouteConst } from 'consts';
 import { styled } from 'theme';
+import { HandleTokenLoginAction, IUserDataSelect, ToggleMenuStatus } from 'store';
 
 import AuthorizedRoot from './AuthorizedRoot';
 
@@ -19,16 +20,31 @@ const Wrapper = styled.div`
 interface IRoot {
   isMenuOpen: boolean;
   notifications: Notification[];
+  handleTokenLoginAction: HandleTokenLoginAction;
+  userData: IUserDataSelect;
+  toggleMenuStatus: ToggleMenuStatus;
 }
 
-const Root: React.FC<IRoot> = ({ isMenuOpen, notifications }) => {
+const Root: React.FC<IRoot> = ({ isMenuOpen, notifications, handleTokenLoginAction, userData, toggleMenuStatus }) => {
+
+  React.useEffect(() => {
+    handleTokenLoginAction();
+  }, []);
 
   return (
     <Wrapper>
       <Notifications notifications={notifications} />
       <Switch>
         <Route path={RouteConst.Auth} component={AuthContainer} />
-        <Route path={RouteConst.Root} render={() => <AuthorizedRoot isMenuOpen={isMenuOpen}/>} />
+        <Route path={RouteConst.Root} render={() => (
+          userData?.id ? (
+            <AuthorizedRoot 
+              isMenuOpen={isMenuOpen}
+              toggleMenuStatus={toggleMenuStatus}
+            />
+          ) : null
+          )} 
+        />
       </Switch>
     </Wrapper>
   );

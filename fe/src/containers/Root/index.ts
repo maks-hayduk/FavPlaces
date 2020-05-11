@@ -4,19 +4,26 @@ import { bindActionCreators, Dispatch } from 'redux';
 import {
   IStoreState,
   selectMenuStatus,
-  selectNotifications
+  selectNotifications,
+  handleTokenLoginAction,
+  selectUserData,
+  toggleMenuStatus
 } from 'store';
 
 import RootContainer from './Root';
 
 const mapStateToProps = (state: IStoreState) => ({
   isMenuOpen: selectMenuStatus(state),
-  notifications: selectNotifications(state)
+  notifications: selectNotifications(state),
+  userData: selectUserData(state)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
-    {},
+    {
+      handleTokenLoginAction,
+      toggleMenuStatus
+    },
     dispatch
   );
 

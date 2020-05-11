@@ -3,4 +3,7 @@ import { createSelector } from 'reselect';
 
 const selectPlaces = (state: IStoreState) => state.places;
 
-export const selectCurrentFeature = createSelector(selectPlaces, places => places.currentFeature);
+export const selectAllPlaces = createSelector(
+  selectPlaces, 
+  (places) => places.data.asMutable()
+);

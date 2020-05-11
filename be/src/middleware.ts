@@ -6,14 +6,14 @@ import { IRequest, IResponse } from 'types';
 
 const checkToken = (req: IRequest, res: IResponse, next: () => void) => {
   let token = req.headers['x-access-token'] || req.headers['authorization'];
-  if ((token as string).startsWith('Bearer ')) {
+  if (token && (token as string).startsWith('Bearer ')) {
     token = token?.slice(7, token.length);
   }
 
   if (token) {
     jwt.verify(token as string, config.secretKey, (err, decoded) => {
       if (err) {
-        return res.json({
+        return res.status(400).json({
           success: false,
           message: 'Token is not valid'
         });

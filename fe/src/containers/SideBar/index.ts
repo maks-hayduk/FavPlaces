@@ -4,13 +4,15 @@ import { bindActionCreators, Dispatch } from 'redux';
 import {
   IStoreState,
   toggleMenuStatus,
-  selectMenuStatus
+  selectMenuStatus,
+  selectAllPlaces
 } from 'store';
 
 import SideBarContainer from './SideBar';
 
 const mapStateToProps = (state: IStoreState) => ({
-  isMenuOpen: selectMenuStatus(state)
+  isMenuOpen: selectMenuStatus(state),
+  places: selectAllPlaces(state)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>

@@ -1,19 +1,29 @@
 import * as React from 'react';
-import { ImmutableObjectMixin } from 'seamless-immutable';
 import ReactMapboxGL, { Layer, Feature, Popup, Marker, Cluster, MapContext } from 'react-mapbox-gl';
 
 import { Map, Button } from 'components';
-import { styled } from 'theme';
-import { GetFeatureDataAction, IFeature } from 'store';
+import { GetPlacesAction, HandleAddPlaceAction } from 'store';
 import { Coords } from 'types';
 
+import { AddPlacePopup } from './AddPlacePopUp';
+
+const mapStyles = {
+  height: '100vh',
+  width: '100vw'
+};
+
 interface IMapContainer {
-  getFeatureDataAction: GetFeatureDataAction;
-  currentFeature: IFeature;
+  handleAddPlaceAction: HandleAddPlaceAction;
+  getPlacesAction: GetPlacesAction;
 }
 
-const MapContainer: React.FC<IMapContainer> = ({ getFeatureDataAction, currentFeature }) => {
+const MapContainer: React.FC<IMapContainer> = ({ handleAddPlaceAction, getPlacesAction }) => {
   const [mapCenter, setMapCenter] = React.useState<Coords>([24.03354921447226, 49.83588835908614]);
+  const [coords, setCoords] = React.useState<[number, number] | null>(null);
+
+  React.useEffect(() => {
+    getPlacesAction();
+  }, []);
 
   return (
     <Map
@@ -21,18 +31,17 @@ const MapContainer: React.FC<IMapContainer> = ({ getFeatureDataAction, currentFe
       center={mapCenter}
       style="mapbox://styles/mapbox/streets-v9"
       onClick={(_, event: any) => {
-        getFeatureDataAction(Object.values(event.lngLat) as Coords);
+        setCoords(Object.values(event.lngLat) as [number, number]);
       }}
-      containerStyle={{
-        height: '100vh',
-        width: '100vw'
-      }}
-    >{currentFeature.id ? (
-      <Popup
-        coordinates={currentFeature.center.asMutable()}
-      >
-        <h1>{currentFeature.text}</h1>
-      </Popup>
+      containerStyle={mapStyles}
+    >{coords?.length ? (
+      <AddPlacePopup 
+        coordinates={coords as [number, number]}
+        onClick={(placeData) => {
+          handleAddPlaceAction(placeData);
+          setCoords(null);
+        }}
+      />
     ) : <></>}
     </Map>
   );
