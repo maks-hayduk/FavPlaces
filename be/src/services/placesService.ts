@@ -2,16 +2,23 @@ import { IRequest, IResponse } from 'types';
 
 import pool from './dbPoolService';
 
-import config from '../config';
+import { parseGetAllPlacesResponse } from '../utils';
 
 interface IPlacesService {
   addPlace: (req: IRequest, res: IResponse) => void;
+  getAllPlaces: (req: IRequest, res: IResponse) => void;
+  updatePlace: (req: IRequest, res: IResponse) => void;
+  deletePlace: (req: IRequest, res: IResponse) => void;
+}
+
+interface ITag {
+  id: number;
 }
 
 class PlacesService implements IPlacesService {
   addPlace = (req: IRequest, res: IResponse) => {
     const { id } = req.decoded;
-    const { latitude, longtitude, title, datetime } = req.body;
+    const { latitude, longtitude, title, datetime, tags } = req.body;
 
     if (!id) {
       res.status(405).send('Method Not Allowed');
@@ -28,6 +35,10 @@ class PlacesService implements IPlacesService {
         }
 
         this._getLastRecordId((err, recordId) => {
+          (tags as ITag[]).forEach(tag => {
+            pool.query('INSERT INTO placestags VALUES($1, $2)', [tag.id, recordId], () => {});
+          });
+
           res.status(201).send({
             id: recordId,
             ...req.body
@@ -45,34 +56,47 @@ class PlacesService implements IPlacesService {
     }
 
     pool.query(
-      'SELECT * FROM places WHERE userId = $1', [id], (error, result) => {
+      `
+        SELECT places.id, latitude, longtitude, title, description, datetime, tagid, label FROM places 
+          LEFT JOIN placestags p on places.id = p.placeId 
+          LEFT JOIN tags on p.tagid = tags.id
+        WHERE userid = $1;
+      `, [id], (error, result) => {
         if (error) {
           res.status(400).send(error);
         }
 
-        res.status(201).send(result.rows);
+        res.status(201).send(parseGetAllPlacesResponse(result.rows));
       }
     );
   }
 
   updatePlace = (req: IRequest, res: IResponse) => {
     const { id } = req.decoded;
-    const { placeId } = req.query;
-    const { latitude, longtitude, title, description, datetime } = req.body;
+    const { id: placeId } = req.params;
+    const { title, description, tags } = req.body;
 
-    const values = [latitude, longtitude, title, description, datetime, placeId];
+    const values = [title, description, placeId];
 
     if (!id) {
       res.status(405).send('Method Not Allowed');
     }
 
     pool.query(
-      'UPDATE places SET latitude=$1, longtitude=$2, title=$3, description=$4, datetime=$5 WHERE id=$6', 
-      [values], 
+      'UPDATE places SET title=$1, description=$2 WHERE id=$3', 
+      values, 
       (error, result) => {
         if (error) {
           res.status(400).send(error);
         }
+
+        pool.query('DELETE FROM placestags WHERE placeid=$1', [placeId], () => {
+          if (tags && tags.length) {
+            (tags as ITag[]).forEach(tag => {
+              pool.query('INSERT INTO placestags VALUES($1, $2)', [tag.id, placeId], () => {});
+            });
+          }
+        });
 
         res.status(201).send(req.body);
       }
@@ -81,7 +105,7 @@ class PlacesService implements IPlacesService {
 
   deletePlace = (req: IRequest, res: IResponse) => {
     const { id } = req.decoded;
-    const { placeId } = req.query;
+    const { id: placeId } = req.params;
 
     if (!id) {
       res.status(405).send('Method Not Allowed');
@@ -95,7 +119,9 @@ class PlacesService implements IPlacesService {
           res.status(400).send(error);
         }
 
-        res.status(200).send(req.body);
+        pool.query('DELETE FROM placestags WHERE placeid=$1', [placeId], () => {
+          res.status(200).send();
+        });
       }
     );
   }
