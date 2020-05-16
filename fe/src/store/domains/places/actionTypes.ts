@@ -14,6 +14,13 @@ export enum PlacesActionTypeKeys {
 
   DELETE_PLACE = 'places/DELETE_PLACE',
   DELETE_PLACE_FULFILLED = 'places/DELETE_PLACE_FULFILLED',
+
+  SET_SELECTED_PLACE_ID = 'places/SET_SELECTED_PLACE_ID'
+}
+
+export interface ISetSelectedActionType {
+  readonly value: number;
+  readonly type: PlacesActionTypeKeys.SET_SELECTED_PLACE_ID;
 }
 
 export interface IAddPlaceActionType 
@@ -44,4 +51,5 @@ export type IPlacesActionTypes =
   | IAddPlaceFulfilledActionType
   | IGetPlacesFulfilledActionType
   | IUpdatePlaceFulfilledActionType
-  | IDeletePlaceFulfilledActionType;
+  | IDeletePlaceFulfilledActionType
+  | ISetSelectedActionType;

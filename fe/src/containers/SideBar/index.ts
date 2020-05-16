@@ -5,20 +5,30 @@ import {
   IStoreState,
   toggleMenuStatus,
   selectMenuStatus,
-  selectAllPlaces
+  selectAllPlaces,
+  selectPlaceIdAction,
+  selectCurrentPlace,
+  handleDeletePlaceAction,
+  selectAllTags,
+  handleUpdatePlaceAction
 } from 'store';
 
 import SideBarContainer from './SideBar';
 
 const mapStateToProps = (state: IStoreState) => ({
   isMenuOpen: selectMenuStatus(state),
-  places: selectAllPlaces(state)
+  places: selectAllPlaces(state),
+  selectedPlace: selectCurrentPlace(state),
+  allTags: selectAllTags(state)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
-      toggleMenuStatus
+      toggleMenuStatus,
+      selectPlaceIdAction,
+      handleDeletePlaceAction,
+      handleUpdatePlaceAction
     },
     dispatch
   );

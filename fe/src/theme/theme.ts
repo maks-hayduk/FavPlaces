@@ -18,8 +18,11 @@ export interface ITheme {
     gray: string;
     iron: string;
     ironLight: string;
+    silver: string;
     
     red: string;
+    lightRed: string;
+    lightPink: string;
 
     yellow: string;
   };
@@ -49,8 +52,11 @@ export const theme: ITheme = {
     gray: 'rgba(0, 0, 0, 0.25)',
     iron: 'rgba(25, 50, 63, 0.2)',
     ironLight: '#fafafa',
+    silver: '#e6e6e6',
 
     red: '#E62652',
+    lightRed: 'rgba(230, 38, 82, 0.5)',
+    lightPink: '#fad4dd',
 
     yellow: '#FEDD00',
   }

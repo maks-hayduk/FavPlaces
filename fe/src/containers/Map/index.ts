@@ -4,20 +4,23 @@ import { bindActionCreators, Dispatch } from 'redux';
 import {
   IStoreState,
   handleAddPlaceAction,
-  getPlacesAction
+  getPlacesAction,
+  selectAllTags,
+  getTagsAction
 } from 'store';
 
 import MapContainer from './Map';
 
 const mapStateToProps = (state: IStoreState) => ({
-
+  allTags: selectAllTags(state)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
       handleAddPlaceAction,
-      getPlacesAction
+      getPlacesAction,
+      getTagsAction
     },
     dispatch
   );

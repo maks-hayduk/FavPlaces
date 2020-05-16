@@ -25,3 +25,9 @@ export interface ISelectOption {
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type Coords = [number, number];
+
+export interface IOptionType {
+  id?: number;
+  label: string;
+  value: string;
+}

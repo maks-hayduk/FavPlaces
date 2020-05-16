@@ -2,12 +2,25 @@ import  * as React from 'react';
 
 import { styled } from 'theme';
 import { IPlaceModel } from 'store';
-import { H3, TextButton } from 'components';
+import { H3, TextButton, EditIcon, ShareIcon } from 'components';
 
 interface IWrapperProps {
   enableToggleDescription: boolean;
   isExpanded: boolean;
 }
+
+const TagWrapper = styled.div`
+  height: 26px;
+  background-color: ${({ theme }) => theme.color.silver};
+ 
+  padding: 2px 4px;
+  margin-right: 5px;
+  font-size: 13px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 const Wrapper = styled.div<IWrapperProps>`
   width: 100%;
@@ -19,9 +32,23 @@ const Wrapper = styled.div<IWrapperProps>`
   flex-direction: column;
   justify-content: space-between;
 
+  .align-header {
+    display: flex;
+    justify-content: space-between;
+
+    .action-icons {
+      display: flex;
+    }
+  }
+
   .place-info-block {
     display: flex;
     flex-direction: column;
+
+    .tags {
+      display: flex;
+      margin: 5px 0;
+    }
   }
 
   .bottom-buttons-block {
@@ -48,9 +75,11 @@ const MAX_DESCRIPTION_SIZE = 35;
 
 interface IPlaceItemProps {
   place: IPlaceModel;
+  onDeleteClick: () => void;
+  onUpdateClick: () => void;
 }
 
-export const PlaceItem: React.FC<IPlaceItemProps> = ({ place }) => {
+export const PlaceItem: React.FC<IPlaceItemProps> = ({ place, onDeleteClick, onUpdateClick }) => {
   const [isExpanded, setIsExpanded] = React.useState<boolean>(false);
 
   const enableToggleDescription = React.useMemo((): boolean => {
@@ -60,7 +89,20 @@ export const PlaceItem: React.FC<IPlaceItemProps> = ({ place }) => {
   return (
     <Wrapper enableToggleDescription={enableToggleDescription} isExpanded={isExpanded}>
       <div className="place-info-block">
-        <H3>{place.title}</H3>
+        <div className="align-header">
+          <H3>{place.title}</H3>
+          <div className="action-icons">
+            <EditIcon onClick={onUpdateClick}/>
+            <ShareIcon />
+          </div>
+        </div>
+        {place.tags && (
+          <div className="tags">
+            {place.tags?.map(tag => (
+              <TagWrapper key={String(tag.id)}>{tag.label}</TagWrapper>
+            ))}
+          </div>
+        )}
         {place.description && (
           <p 
             className="place-description"
@@ -74,13 +116,13 @@ export const PlaceItem: React.FC<IPlaceItemProps> = ({ place }) => {
               }
             }}
           >
-            {!isExpanded ? `${place.description.substring(0, MAX_DESCRIPTION_SIZE)}...` : place.description}
+            {!isExpanded ? `${place.description.substring(0, MAX_DESCRIPTION_SIZE)}${enableToggleDescription ? '...' : ''}` : place.description}
           </p>
         )}
       </div>
       <div className="bottom-buttons-block">
         <TextButton>See on map</TextButton>
-        <TextButton className="place-delete-btn">Delete</TextButton>
+        <TextButton className="place-delete-btn" onClick={onDeleteClick}>Delete</TextButton>
       </div>
     </Wrapper>
   );

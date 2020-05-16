@@ -7,6 +7,7 @@ import mobileMenuReducer from './domains/ui/reducer';
 import placesReducer from './domains/places/reducer';
 import authReducer from './domains/auth/reducer';
 import userReducer from './domains/user/reducer';
+import tagsReducer from './domains/tags/reducer';
 
 const createRootReducer = (history: History) => combineReducers({
   notifications,
@@ -14,7 +15,8 @@ const createRootReducer = (history: History) => combineReducers({
   ui: mobileMenuReducer,
   auth: authReducer,
   user: userReducer,
-  places: placesReducer
+  places: placesReducer,
+  tags: tagsReducer
 });
 
 export default createRootReducer;

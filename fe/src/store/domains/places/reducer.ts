@@ -36,6 +36,12 @@ const placesReducer = (state = placesInitialState, action: IPlacesActionTypes) =
       return state.update('data', places => places.filter(place => place.id !== deletedPlaceId));
     }
 
+    case PlacesActionTypeKeys.SET_SELECTED_PLACE_ID: {
+      const id = action.value;
+
+      return state.set('selectedId', id);
+    }
+
     default:
       return state;
   }

@@ -1,8 +1,17 @@
 import * as React from 'react';
 
-import { ToggleMenuStatus, IPlaceModel } from 'store';
-import { BurgerIcon, DoubleShewron, PlaceItem } from 'components';
+import { 
+  ToggleMenuStatus, 
+  IPlaceModel, 
+  SelectPlaceIdAction, 
+  HandleDeletePlaceAction, 
+  IAllTagsSelect, 
+  HandleUpdatePlaceAction
+} from 'store';
+import { BurgerIcon, DoubleShewron, PlaceItem, Modal } from 'components';
 import { styled } from 'theme';
+
+import { renderModalByType, SideBarModalConsts } from './Modals/Main';
 
 interface IWrapperProps {
   isMenuOpen: boolean;
@@ -42,31 +51,57 @@ const Wrapper = styled.div<IWrapperProps>`
 interface ISideBarProps {
   isMenuOpen: boolean;
   toggleMenuStatus: ToggleMenuStatus;
-  places: IPlaceModel[];
+  places: any[];
+  selectPlaceIdAction: SelectPlaceIdAction;
+  selectedPlace: IPlaceModel | null;
+  handleDeletePlaceAction: HandleDeletePlaceAction;
+  allTags: IAllTagsSelect;
+  handleUpdatePlaceAction: HandleUpdatePlaceAction;
 }
 
-const SideBar: React.FC<ISideBarProps> = ({ toggleMenuStatus, isMenuOpen, places }) => {
+const SideBar: React.FC<ISideBarProps> = (props) => {
+  const { toggleMenuStatus, isMenuOpen, places, selectPlaceIdAction } = props;
+
+  const [modalType, setModalType] = React.useState<SideBarModalConsts | null>(null);
+
+  const handleClick = async (id: number, type: SideBarModalConsts, setIsOpen: (val: boolean) => void) => {
+    await selectPlaceIdAction(id);
+    setIsOpen(true);
+    setModalType(type);
+  };
+
   return (
-    <>
-      {!isMenuOpen && (
-        <div className="burger-btn" onClick={() => toggleMenuStatus(true)}>
-          <BurgerIcon />
-        </div>
+    <Modal
+      renderModalContent={(_, setIsOpen) => renderModalByType(modalType, { ...props, setIsOpen })}
+      renderComponentContent={(_, setIsOpen) => (
+        <>
+          {!isMenuOpen && (
+            <div className="burger-btn" onClick={() => toggleMenuStatus(true)}>
+              <BurgerIcon />
+            </div>
+          )}
+          <Wrapper isMenuOpen={isMenuOpen}>
+            <div className="close-side-bar-btn" onClick={() => toggleMenuStatus(false)}>
+              <DoubleShewron />
+            </div>
+            <div className="favorite-place-block">
+              {places?.map(place => (
+                <PlaceItem 
+                  key={String(place.id)}
+                  place={place}
+                  onDeleteClick={() => {
+                    handleClick(Number(place.id), SideBarModalConsts.DeletePlace, setIsOpen);
+                  }}
+                  onUpdateClick={() => {
+                    handleClick(Number(place.id), SideBarModalConsts.UpdatePlace, setIsOpen);
+                  }}
+                />
+              ))}
+            </div>
+          </Wrapper>
+        </>
       )}
-      <Wrapper isMenuOpen={isMenuOpen}>
-        <div className="close-side-bar-btn" onClick={() => toggleMenuStatus(false)}>
-          <DoubleShewron />
-        </div>
-        <div className="favorite-place-block">
-          {places?.map(place => (
-            <PlaceItem 
-              key={String(place.id)}
-              place={place}
-            />
-          ))}
-        </div>
-      </Wrapper>
-    </>
+    />
   );
 };
 

@@ -5,6 +5,7 @@ import { IPlacesState } from './domains/places';
 import { IMenuState } from './domains/ui';
 import { IAuthState } from './domains/auth';
 import { IUserState } from './domains/user';
+import { ITagsState } from './domains/tags';
 
 export interface IStoreState {
   router: ConnectedRouter;
@@ -13,4 +14,5 @@ export interface IStoreState {
   ui: IMenuState;
   auth: IAuthState;
   user: IUserState;
+  tags: ITagsState;
 }

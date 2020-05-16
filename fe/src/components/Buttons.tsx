@@ -57,6 +57,30 @@ export const Button = styled.button<IBtnProps>`
   }
 `;
 
+export const CancelButton = styled.button`
+  ${sharedStyle}
+
+  height: 38px;
+  padding: 10px 30px;
+  text-align: center;
+  color: ${({ theme }) => theme.color.red};
+  background-color: ${({ theme }) => theme.color.lightPink};
+
+  &:hover {
+    background-color: ${({ theme }) => theme.color.lightRed};
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  &:active {
+    background-color: ${({ theme }) => theme.color.lightRed};
+  }
+`;
+
+
 export const TextButton = styled.button<ITextButtonProps>`
   ${sharedStyle}
 

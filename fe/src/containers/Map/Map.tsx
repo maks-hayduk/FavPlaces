@@ -2,7 +2,7 @@ import * as React from 'react';
 import ReactMapboxGL, { Layer, Feature, Popup, Marker, Cluster, MapContext } from 'react-mapbox-gl';
 
 import { Map, Button } from 'components';
-import { GetPlacesAction, HandleAddPlaceAction } from 'store';
+import { GetPlacesAction, HandleAddPlaceAction, IAllTagsSelect, GetTagsAction } from 'store';
 import { Coords } from 'types';
 
 import { AddPlacePopup } from './AddPlacePopUp';
@@ -15,14 +15,17 @@ const mapStyles = {
 interface IMapContainer {
   handleAddPlaceAction: HandleAddPlaceAction;
   getPlacesAction: GetPlacesAction;
+  allTags: IAllTagsSelect;
+  getTagsAction: GetTagsAction;
 }
 
-const MapContainer: React.FC<IMapContainer> = ({ handleAddPlaceAction, getPlacesAction }) => {
+const MapContainer: React.FC<IMapContainer> = ({ handleAddPlaceAction, getPlacesAction, allTags, getTagsAction }) => {
   const [mapCenter, setMapCenter] = React.useState<Coords>([24.03354921447226, 49.83588835908614]);
   const [coords, setCoords] = React.useState<[number, number] | null>(null);
 
   React.useEffect(() => {
     getPlacesAction();
+    getTagsAction();
   }, []);
 
   return (
@@ -35,7 +38,8 @@ const MapContainer: React.FC<IMapContainer> = ({ handleAddPlaceAction, getPlaces
       }}
       containerStyle={mapStyles}
     >{coords?.length ? (
-      <AddPlacePopup 
+      <AddPlacePopup
+        allTags={allTags}
         coordinates={coords as [number, number]}
         onClick={(placeData) => {
           handleAddPlaceAction(placeData);

@@ -2,6 +2,7 @@
 import * as React from 'react';
 
 import { CircleIconWrapper, IIconSharedProps } from './sharedCss';
+import { ActionIconWrapper } from './Wrappers';
 
 export const DeleteIcon: React.FC<IIconSharedProps> = props => (
   <svg width="15" height="15" viewBox="0 0 15 15" fill="none" {...props}>
@@ -83,4 +84,38 @@ export const DoubleShewron: React.FC<IIconSharedProps> = (props) => (
       <polygon fill="#231F20" points="12.885,0.58 14.969,2.664 4.133,13.5 14.969,24.336 12.885,26.42 -0.035,13.5  "/>
     </g>
   </svg>
+);
+
+export const CrossIcon: React.FC<IIconSharedProps> = (props) => (
+  <svg width="17" height="17" viewBox="0 0 17 17" fill="none" {...props}>
+    <path d="M16 1L1 16" stroke="#19323F" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M1 1L16 16" stroke="#19323F" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+export const EditIcon: React.FC<IIconSharedProps> = (props) => (
+  <ActionIconWrapper {...props}>
+    <svg viewBox="0 0 24 24" fill="#1B98E0" width="20px" height="20px">
+      <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+      <path d="M0 0h24v24H0z" fill="none"/>
+    </svg>
+  </ActionIconWrapper>
+);
+
+export const ShareIcon: React.FC<IIconSharedProps> = (props) => (
+  <ActionIconWrapper {...props}>
+     <svg viewBox="0 0 24 24" fill="#1B98E0" width="20px" height="20px">
+      <path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/>
+      <path d="M0 0h24v24H0z" fill="none"/>
+    </svg>
+  </ActionIconWrapper>
+);
+
+export const ShareAllIcon: React.FC<IIconSharedProps> = (props) => (
+  <ActionIconWrapper {...props}>
+    <svg viewBox="0 0 24 24" fill="#1B98E0" width="20px" height="20px">
+      <path d="M7 8V5l-7 7 7 7v-3l-4-4 4-4zm6 1V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/>
+      <path d="M0 0h24v24H0z" fill="none"/>
+    </svg>
+  </ActionIconWrapper>
 );

@@ -6,7 +6,8 @@ import {
   IAddPlaceActionType, 
   IGetPlacesActionType, 
   IUpdatePlaceActionType, 
-  IDeletePlaceActionType 
+  IDeletePlaceActionType,
+  ISetSelectedActionType
 } from './actionTypes';
 import { IPlaceModel } from './types';
 
@@ -88,3 +89,10 @@ export const handleUpdatePlaceAction: HandleUpdatePlaceAction = (placeId, data) 
     }));
   }
 };
+
+export type SelectPlaceIdAction = (id: number) => ISetSelectedActionType;
+
+export const selectPlaceIdAction: SelectPlaceIdAction = (id) => ({
+  type: PlacesActionTypeKeys.SET_SELECTED_PLACE_ID,
+  value: id
+});

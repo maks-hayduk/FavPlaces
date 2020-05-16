@@ -7,6 +7,6 @@ export const addPlace = (data: IPlaceModel) => apiClientService.post('/places', 
 export const getPlaces = () => apiClientService.get('/places');
 
 export const updatePlace = (placeId: number, data: IPlaceModel) => 
-  apiClientService.post(`/places/${placeId}`, { data });
+  apiClientService.put(`/places/${placeId}`, { data });
 
-export const deletePlace = (placeId: number) => apiClientService.post(`/places/${placeId}`);
+export const deletePlace = (placeId: number) => apiClientService.delete(`/places/${placeId}`);
