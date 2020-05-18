@@ -10,7 +10,12 @@ import {
   selectCurrentPlace,
   handleDeletePlaceAction,
   selectAllTags,
-  handleUpdatePlaceAction
+  handleUpdatePlaceAction,
+  handleSharePlaceAction,
+  selectSharedPlaces,
+  handleDeleteSharedPlaceAction,
+  searchPlaceAction,
+  selectSearchPlaces
 } from 'store';
 
 import SideBarContainer from './SideBar';
@@ -19,7 +24,9 @@ const mapStateToProps = (state: IStoreState) => ({
   isMenuOpen: selectMenuStatus(state),
   places: selectAllPlaces(state),
   selectedPlace: selectCurrentPlace(state),
-  allTags: selectAllTags(state)
+  allTags: selectAllTags(state),
+  sharedPlaces: selectSharedPlaces(state),
+  searchPlaces: selectSearchPlaces(state)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
@@ -28,7 +35,10 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
       toggleMenuStatus,
       selectPlaceIdAction,
       handleDeletePlaceAction,
-      handleUpdatePlaceAction
+      handleUpdatePlaceAction,
+      handleSharePlaceAction,
+      handleDeleteSharedPlaceAction,
+      searchPlaceAction
     },
     dispatch
   );

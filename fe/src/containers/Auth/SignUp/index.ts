@@ -1,3 +1,4 @@
+import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
@@ -15,7 +16,8 @@ const mapStateToProps = (state: IStoreState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
-      signUpAction
+      signUpAction,
+      pushUrl: push
     },
     dispatch
   );

@@ -7,7 +7,11 @@ import {
   IGetPlacesActionType, 
   IUpdatePlaceActionType, 
   IDeletePlaceActionType,
-  ISetSelectedActionType
+  ISetSelectedActionType,
+  ISharePlaceActionType,
+  IGetSharedPlacesActionType,
+  IDeleteSharedPlaceActionType,
+  ISearchPlaceActionType
 } from './actionTypes';
 import { IPlaceModel } from './types';
 
@@ -95,4 +99,65 @@ export type SelectPlaceIdAction = (id: number) => ISetSelectedActionType;
 export const selectPlaceIdAction: SelectPlaceIdAction = (id) => ({
   type: PlacesActionTypeKeys.SET_SELECTED_PLACE_ID,
   value: id
+});
+
+export type SharePlaceAction = (placeId: number, email: string) => ISharePlaceActionType;
+
+export const sharePlaceAction: SharePlaceAction = (placeId, email) => ({
+  type: PlacesActionTypeKeys.SHARE_PLACE,
+  payload: api.sharePlace(placeId, email)
+});
+
+export type HandleSharePlaceAction = (placeId: number, email: string) => IThunk<void>;
+
+export const handleSharePlaceAction: HandleSharePlaceAction = (placeId, email) => async (dispatch) => {
+  try {
+    await dispatch(sharePlaceAction(placeId, email));
+    dispatch(successNotifAction({
+      title: 'Place was successfully shared'
+    }));
+  } catch (e) {
+    dispatch(errorNotifAction({
+      title: 'Place was not shared',
+      message: 'Something went wrong'
+    }));
+  }
+};
+
+export type GetSharedPlacesAction = () => IGetSharedPlacesActionType;
+
+export const getSharedPlacesAction: GetSharedPlacesAction = () => ({
+  type: PlacesActionTypeKeys.GET_SHARED_PLACES,
+  payload: api.getSharedPlaces()
+});
+
+export type DeleteSharedPlaceAction = (placeId: number) => IDeleteSharedPlaceActionType;
+
+export const deleteSharedPlaceAction: DeleteSharedPlaceAction = (placeId) => ({
+  type: PlacesActionTypeKeys.DELETE_SHARED_PLACE,
+  payload: api.deleteSharedPlace(placeId),
+  meta: placeId
+});
+
+export type HandleDeleteSharedPlaceAction = (placeId: number) => IThunk<void>;
+
+export const handleDeleteSharedPlaceAction: HandleDeleteSharedPlaceAction = (placeId) => async (dispatch) => {
+  try {
+    await dispatch(deleteSharedPlaceAction(placeId));
+    dispatch(successNotifAction({
+      title: 'Shared place was successfully deleted'
+    }));
+  } catch (e) {
+    dispatch(errorNotifAction({
+      title: 'Shared place was not deleted',
+      message: 'Something went wrong'
+    }));
+  }
+};
+
+export type SearchPlaceAction = (placeName: string) => ISearchPlaceActionType;
+
+export const searchPlaceAction: SearchPlaceAction = (placeName) => ({
+  type: PlacesActionTypeKeys.SEARCH_PLACE,
+  payload: api.searchPlace(placeName)
 });

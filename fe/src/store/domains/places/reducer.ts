@@ -4,8 +4,10 @@ import { PlacesActionTypeKeys, IPlacesActionTypes } from './actionTypes';
 import { IPlacesInitialState } from './types';
 
 const placesInitialState: ImmutableObject<IPlacesInitialState> = Immutable({
+  selectedId: 0,
   data: [],
-  selectedId: 0
+  shared: [],
+  searchPlaceOptions: []
 });
 
 const placesReducer = (state = placesInitialState, action: IPlacesActionTypes) => {
@@ -41,6 +43,18 @@ const placesReducer = (state = placesInitialState, action: IPlacesActionTypes) =
 
       return state.set('selectedId', id);
     }
+
+    case PlacesActionTypeKeys.GET_SHARED_PLACES_FULFILLED:
+      return state.set('shared', action.payload);
+
+    case PlacesActionTypeKeys.DELETE_SHARED_PLACE_FULFILLED: {
+      const deletedPlaceId = action.meta;
+
+      return state.update('shared', places => places.filter(place => place.id !== deletedPlaceId));
+    }
+
+    case PlacesActionTypeKeys.SEARCH_PLACE_FULFILLED:
+      return state.set('searchPlaceOptions', action.payload.features);
 
     default:
       return state;

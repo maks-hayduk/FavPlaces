@@ -10,7 +10,7 @@
         "ban": false,
         "class-name": true,
         "curly": true,
-        "indent": [ true, "spaces" ],
+        "indent": [ true, "spaces"],
         "interface-name": true,
         "max-line-length": [ true, 120 ],
         "no-arg": true,

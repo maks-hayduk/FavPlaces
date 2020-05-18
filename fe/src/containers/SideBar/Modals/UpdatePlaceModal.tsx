@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Formik, Form, Field } from 'formik';
 
-import { H3, CancelButton, TextButton, InputField, TextAreaField, SelectField, Button } from 'components';
+import { H3, CancelButton, TextButton, InputField, TextAreaField, CreatableSelectField, Button } from 'components';
 import { styled } from 'theme';
 import { IPlaceModel, UpdatePlaceAction, IAllTagsSelect, HandleUpdatePlaceAction } from 'store';
 
@@ -71,7 +71,8 @@ export const UpdatePlaceModal: React.FC<IUpdatePlaceModal> = ({
             />
             <Field
               className="add-place-tags"
-              component={SelectField}
+              component={CreatableSelectField}
+              placeholder="Choose tags"
               name="tags"
               options={allTags}
             />

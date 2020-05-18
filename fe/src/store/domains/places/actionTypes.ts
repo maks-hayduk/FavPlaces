@@ -1,6 +1,6 @@
 import { IPromiseAction } from 'types';
 
-import { IPlaceModel } from './types';
+import { IPlaceModel, ISearchPlaceResponse } from './types';
 
 export enum PlacesActionTypeKeys {
   ADD_PLACE = 'places/ADD_PLACE',
@@ -15,7 +15,19 @@ export enum PlacesActionTypeKeys {
   DELETE_PLACE = 'places/DELETE_PLACE',
   DELETE_PLACE_FULFILLED = 'places/DELETE_PLACE_FULFILLED',
 
-  SET_SELECTED_PLACE_ID = 'places/SET_SELECTED_PLACE_ID'
+  SET_SELECTED_PLACE_ID = 'places/SET_SELECTED_PLACE_ID',
+
+  SHARE_PLACE = 'places/SHARE_PLACE',
+  SHARE_PLACE_FULFILLED = 'places/SHARE_PLACE_FULFILLED',
+
+  GET_SHARED_PLACES = 'places/GET_SHARED_PLACES',
+  GET_SHARED_PLACES_FULFILLED = 'places/GET_SHARED_PLACES_FULFILLED',
+
+  DELETE_SHARED_PLACE = 'places/DELETE_SHARED_PLACE',
+  DELETE_SHARED_PLACE_FULFILLED = 'places/DELETE_SHARED_PLACE_FULFILLED',
+
+  SEARCH_PLACE = 'places/SEARCH_PLACE',
+  SEARCH_PLACE_FULFILLED = 'places/SEARCH_PLACE_FULFILLED',
 }
 
 export interface ISetSelectedActionType {
@@ -47,9 +59,37 @@ export interface IDeletePlaceActionType
 export interface IDeletePlaceFulfilledActionType
   extends IPromiseAction<PlacesActionTypeKeys.DELETE_PLACE_FULFILLED, {}, number> {}
 
+export interface ISharePlaceActionType
+  extends IPromiseAction<PlacesActionTypeKeys.SHARE_PLACE, Promise<{}>> {}
+
+export interface ISharePlaceFulfilledActionType
+  extends IPromiseAction<PlacesActionTypeKeys.SHARE_PLACE_FULFILLED, {}> {}
+
+export interface IGetSharedPlacesActionType
+  extends IPromiseAction<PlacesActionTypeKeys.GET_SHARED_PLACES, Promise<{}>> {}
+
+export interface IGetSharedPlacesFulfilledActionType
+  extends IPromiseAction<PlacesActionTypeKeys.GET_SHARED_PLACES_FULFILLED, {}> {}
+
+export interface IDeleteSharedPlaceActionType
+  extends IPromiseAction<PlacesActionTypeKeys.DELETE_SHARED_PLACE, Promise<{}>, number> {}
+
+export interface IDeleteSharedPlaceFulfilledActionType
+  extends IPromiseAction<PlacesActionTypeKeys.DELETE_SHARED_PLACE_FULFILLED, {}, number> {}
+
+export interface ISearchPlaceActionType 
+  extends IPromiseAction<PlacesActionTypeKeys.SEARCH_PLACE, Promise<ISearchPlaceResponse>> {}
+
+export interface ISearchPlaceFulfilledActionType 
+  extends IPromiseAction<PlacesActionTypeKeys.SEARCH_PLACE_FULFILLED, ISearchPlaceResponse> {}
+
 export type IPlacesActionTypes =
   | IAddPlaceFulfilledActionType
   | IGetPlacesFulfilledActionType
   | IUpdatePlaceFulfilledActionType
   | IDeletePlaceFulfilledActionType
-  | ISetSelectedActionType;
+  | ISetSelectedActionType
+  | ISharePlaceFulfilledActionType
+  | IGetSharedPlacesFulfilledActionType
+  | IDeleteSharedPlaceFulfilledActionType
+  | ISearchPlaceFulfilledActionType;

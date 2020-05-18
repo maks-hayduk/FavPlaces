@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Form, Field, Formik } from 'formik';
 import { Link } from 'react-router-dom';
+import { Push } from 'connected-react-router';
 
 import { RouteConst } from 'consts';
 import { InputField, Button, IconTextButton, H3, PrimaryLeftArrowIcon } from 'components';
@@ -40,9 +41,10 @@ interface IFormikValues {
 
 interface ILoginContainer {
   signUpAction: SignUpAction;
+  pushUrl: Push;
 }
 
-const LoginContainer: React.FC<ILoginContainer> = ({ signUpAction }) => {
+const LoginContainer: React.FC<ILoginContainer> = ({ signUpAction, pushUrl }) => {
   return (
     <LoginWrapper>
       <Formik<IFormikValues>
@@ -54,6 +56,7 @@ const LoginContainer: React.FC<ILoginContainer> = ({ signUpAction }) => {
         }}
         onSubmit={async (values) => {
           await signUpAction(values);
+          pushUrl(RouteConst.Login);
         }}
       >
         {({ isSubmitting }) => (

@@ -1,8 +1,8 @@
 import  * as React from 'react';
 
 import { styled } from 'theme';
-import { IPlaceModel } from 'store';
-import { H3, TextButton, EditIcon, ShareIcon } from 'components';
+import { ISharePlaceModel } from 'store';
+import { H3, H4, TextButton, EditIcon, ShareIcon } from 'components';
 
 interface IWrapperProps {
   enableToggleDescription: boolean;
@@ -69,18 +69,22 @@ const Wrapper = styled.div<IWrapperProps>`
       cursor: pointer;
     `}
   }
+
+  .shared-by {
+    font-size: 12px;
+    margin: 2px 0;
+    color: ${({ theme }) => theme.color.grayDark};
+  }
 `;
 
 const MAX_DESCRIPTION_SIZE = 35;
 
-interface IPlaceItemProps {
-  place: IPlaceModel;
+interface ISharePlaceItem {
+  place: ISharePlaceModel;
   onDeleteClick: () => void;
-  onUpdateClick: () => void;
-  onShareClick: () => void;
 }
 
-export const PlaceItem: React.FC<IPlaceItemProps> = ({ place, onDeleteClick, onUpdateClick, onShareClick }) => {
+export const SharePlaceItem: React.FC<ISharePlaceItem> = ({ place, onDeleteClick }) => {
   const [isExpanded, setIsExpanded] = React.useState<boolean>(false);
 
   const enableToggleDescription = React.useMemo((): boolean => {
@@ -92,11 +96,8 @@ export const PlaceItem: React.FC<IPlaceItemProps> = ({ place, onDeleteClick, onU
       <div className="place-info-block">
         <div className="align-header">
           <H3>{place.title}</H3>
-          <div className="action-icons">
-            <EditIcon onClick={onUpdateClick}/>
-            <ShareIcon onClick={onShareClick}/>
-          </div>
         </div>
+        <H4 className="shared-by">Shared by: {place.email}</H4>
         {place.tags && (
           <div className="tags">
             {place.tags?.map(tag => (

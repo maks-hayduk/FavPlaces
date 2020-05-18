@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import { IAllTagsSelect } from 'store';
 import { DateFormatConst } from 'consts';
-import { InputField, Button, SelectField } from 'components';
+import { InputField, Button, CreatableSelectField } from 'components';
 import { styled } from 'theme';
 import { IOptionType } from 'types';
 
@@ -72,7 +72,8 @@ export const AddPlacePopup: React.FC<IAddPlacePopupProps> = ({ coordinates, onCl
             />
             <Field
               className="add-place-tags"
-              component={SelectField}
+              component={CreatableSelectField}
+              placeholder="Choose tags"
               name="tags"
               options={allTags}
             />

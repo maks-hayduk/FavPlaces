@@ -20,6 +20,13 @@ const Wrapper = styled.div`
     top: 20px;
     left: 20px;
     z-index: 50;
+    display: flex;
+    align-items: center;
+
+    .search-field {
+      margin-left: 15px;
+      width: 250px;
+    }
   }
 `;
 

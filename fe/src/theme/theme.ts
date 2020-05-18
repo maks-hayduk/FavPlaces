@@ -16,6 +16,7 @@ export interface ITheme {
     transparent: string;
 
     gray: string;
+    grayDark: string;
     iron: string;
     ironLight: string;
     silver: string;
@@ -50,6 +51,7 @@ export const theme: ITheme = {
     white: '#FFFFFF',
 
     gray: 'rgba(0, 0, 0, 0.25)',
+    grayDark: '#a9a9a9',
     iron: 'rgba(25, 50, 63, 0.2)',
     ironLight: '#fafafa',
     silver: '#e6e6e6',

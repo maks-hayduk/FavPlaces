@@ -6,7 +6,8 @@ import {
   handleAddPlaceAction,
   getPlacesAction,
   selectAllTags,
-  getTagsAction
+  getTagsAction,
+  getSharedPlacesAction
 } from 'store';
 
 import MapContainer from './Map';
@@ -20,7 +21,8 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
     {
       handleAddPlaceAction,
       getPlacesAction,
-      getTagsAction
+      getTagsAction,
+      getSharedPlacesAction
     },
     dispatch
   );

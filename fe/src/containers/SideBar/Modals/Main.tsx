@@ -1,11 +1,15 @@
 import * as React from 'react';
 
 import { DeletePlaceModal } from './DeletePlaceModal';
+import { SharePlaceModal } from './SharePlaceModal';
 import { UpdatePlaceModal } from './UpdatePlaceModal';
+import { DeleteSharePlaceModal } from './DeleteSharePlaceModal';
 
 export enum SideBarModalConsts {
   DeletePlace = 'deletePlace',
-  UpdatePlace = 'updatePlace'
+  UpdatePlace = 'updatePlace',
+  SharePlace = 'sharePlace',
+  DeleteSharePlace = 'deleteSharePlace'
 }
 
 export const renderModalByType = (type: SideBarModalConsts | null, props: any) => {
@@ -14,7 +18,13 @@ export const renderModalByType = (type: SideBarModalConsts | null, props: any) =
       return <DeletePlaceModal {...props} />;
 
     case SideBarModalConsts.UpdatePlace:
-      return <UpdatePlaceModal {...props} />
+      return <UpdatePlaceModal {...props} />;
+
+    case SideBarModalConsts.SharePlace:
+      return <SharePlaceModal {...props} />;
+
+    case SideBarModalConsts.DeleteSharePlace:
+      return <DeleteSharePlaceModal {...props} />;
 
     default:
       return <></>;
