@@ -10,6 +10,8 @@ export enum AuthActionTypeKeys {
   LOGIN_FULFILLED = 'auth/LOGIN_FULFILLED',
 
   GET_PARAM_TOKEN = 'auth/GET_PARAM_TOKEN',
+
+  LOG_OUT = 'auth/LOG_OUT'
 }
 
 export interface IGetParamTokenFulfilledActionType extends IPromiseAction<AuthActionTypeKeys.GET_PARAM_TOKEN, string> {}
@@ -26,7 +28,12 @@ export interface ILoginActionType
 export interface ILoginFulfilledActionType 
   extends IPromiseAction<AuthActionTypeKeys.LOGIN_FULFILLED, ILoginResponse> {}
 
+export interface ILogoutActionType {
+  type: AuthActionTypeKeys.LOG_OUT;
+}
+
 export type IAuthActionTypes =
   | ISignUpFulfilledActionType
   | ILoginFulfilledActionType
-  | IGetParamTokenFulfilledActionType;
+  | IGetParamTokenFulfilledActionType
+  | ILogoutActionType;

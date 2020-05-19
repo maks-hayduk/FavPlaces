@@ -18,6 +18,9 @@ const authReducer = (state = authInitialState, action: IAuthActionTypes) => {
     case AuthActionTypeKeys.GET_PARAM_TOKEN:
       return state.set('token', action.payload);
 
+    case AuthActionTypeKeys.LOG_OUT:
+      return authInitialState;
+
     default:
       return state;
   }

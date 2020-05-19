@@ -5,7 +5,7 @@ import { apiClientService } from 'services';
 import { RouteConst, StorageConst } from 'consts';
 
 import * as api from './api';
-import { AuthActionTypeKeys, ISignUpActionType, ILoginActionType, IGetParamTokenFulfilledActionType } from './actionTypes';
+import { AuthActionTypeKeys, ISignUpActionType, ILoginActionType, IGetParamTokenFulfilledActionType, ILogoutActionType } from './actionTypes';
 import { ISignUpModel, ILoginModel, ILoginResponse } from './types';
 
 import { getDetailsAction } from '../user';
@@ -65,4 +65,18 @@ export const handleTokenLoginAction: HandleTokenLoginAction = () => async (dispa
     await dispatch(getParamTokenFulfilledAction(token));
     dispatch(getDetailsAction());
   }
+};
+
+export type LogoutAction = () => ILogoutActionType;
+
+export const logoutAction: LogoutAction = () => ({
+  type: AuthActionTypeKeys.LOG_OUT
+});
+
+export type HandleLogoutAction = () => IThunk<void>;
+
+export const handleLogoutAction: HandleLogoutAction = () => async (dispatch) => {
+  await dispatch(logoutAction());
+  window.localStorage.removeItem(StorageConst.AuthToken);
+  dispatch(push(RouteConst.Login));
 };

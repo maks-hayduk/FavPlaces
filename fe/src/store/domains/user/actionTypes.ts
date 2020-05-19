@@ -1,6 +1,6 @@
 import { IPromiseAction } from 'types';
 
-import { ILoginFulfilledActionType } from '../auth/actionTypes';
+import { ILoginFulfilledActionType, ILogoutActionType } from '../auth/actionTypes';
 
 export enum UserActionTypeKeys {
   GET_DETAILS = 'user/GET_DETAILS',
@@ -15,4 +15,5 @@ export interface IGetDetailsFulfilledActionType
 
 export type UserActionTypes =
   | IGetDetailsFulfilledActionType
-  | ILoginFulfilledActionType;
+  | ILoginFulfilledActionType
+  | ILogoutActionType;

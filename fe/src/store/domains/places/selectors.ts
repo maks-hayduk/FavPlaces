@@ -4,7 +4,7 @@ import { IStoreState } from 'store';
 
 const selectPlaces = (state: IStoreState) => state.places;
 
-export const selectAllPlaces = createSelector(
+export const selectFavoritePlaces = createSelector(
   selectPlaces, 
   (places) => places.data.asMutable()
 );
@@ -42,4 +42,9 @@ export const selectSearchPlaces = createSelector(
       data: place
     }));
   }
+);
+
+export const selectAllPlaces = createSelector(
+  selectPlaces,
+  ({ data, shared }) => data.asMutable().concat(shared.asMutable())
 );

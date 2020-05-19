@@ -2,25 +2,12 @@ import  * as React from 'react';
 
 import { styled } from 'theme';
 import { IPlaceModel } from 'store';
-import { H3, TextButton, EditIcon, ShareIcon } from 'components';
+import { H3, TextButton, EditIcon, ShareIcon, TagWrapper } from 'components';
 
 interface IWrapperProps {
   enableToggleDescription: boolean;
   isExpanded: boolean;
 }
-
-const TagWrapper = styled.div`
-  height: 26px;
-  background-color: ${({ theme }) => theme.color.silver};
- 
-  padding: 2px 4px;
-  margin-right: 5px;
-  font-size: 13px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
 
 const Wrapper = styled.div<IWrapperProps>`
   width: 100%;
@@ -78,9 +65,10 @@ interface IPlaceItemProps {
   onDeleteClick: () => void;
   onUpdateClick: () => void;
   onShareClick: () => void;
+  onPlaceClick: () => void;
 }
 
-export const PlaceItem: React.FC<IPlaceItemProps> = ({ place, onDeleteClick, onUpdateClick, onShareClick }) => {
+export const PlaceItem: React.FC<IPlaceItemProps> = ({ place, onDeleteClick, onUpdateClick, onShareClick, onPlaceClick }) => {
   const [isExpanded, setIsExpanded] = React.useState<boolean>(false);
 
   const enableToggleDescription = React.useMemo((): boolean => {
@@ -122,7 +110,7 @@ export const PlaceItem: React.FC<IPlaceItemProps> = ({ place, onDeleteClick, onU
         )}
       </div>
       <div className="bottom-buttons-block">
-        <TextButton>See on map</TextButton>
+        <TextButton onClick={onPlaceClick}>See on map</TextButton>
         <TextButton className="place-delete-btn" onClick={onDeleteClick}>Delete</TextButton>
       </div>
     </Wrapper>

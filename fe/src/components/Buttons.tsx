@@ -172,3 +172,30 @@ export const IconTextButton: React.FC<IIconTextButtonProps> = ({
     </div>
   );
 };
+
+interface IControlWrapperProps {
+  isDanger: boolean;
+}
+
+export const ControlWrapper = styled.div<IControlWrapperProps>`
+  padding: 5px 10px;
+  border-radius: 4px;
+  border: 1px solid ${({ isDanger, theme }) => isDanger ? theme.color.lightRed : theme.color.primaryLight};
+  background-color: ${({ isDanger, theme }) => isDanger ? theme.color.lightRed : theme.color.primaryDarker};
+  cursor: pointer;
+  height: 40px;
+
+  color: ${({ theme }) => theme.color.white};
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    background-color: ${({ isDanger, theme }) => isDanger ? theme.color.lightPink : theme.color.primaryLight};
+  }
+
+  &:active {
+    background-color: ${({ isDanger, theme }) => isDanger ? theme.color.red : theme.color.primary};
+  }
+`;

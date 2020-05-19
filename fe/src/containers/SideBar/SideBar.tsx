@@ -20,6 +20,7 @@ import { Coords } from 'types';
 
 import { renderModalByType, SideBarModalConsts } from './Modals/Main';
 import { FeatureInfo } from './FeatureInfo';
+import { IPlaceInfo } from '../Map/Map';
 
 const TabWrapper = styled.div<{ isActive: boolean }>`
 	width: 72px;
@@ -69,11 +70,8 @@ const Wrapper = styled.div<IWrapperProps>`
 		margin-top: 50px;
 	}
 
-  .favorite-place-block {
-    margin-top: 20px;
-  }
-
-  .shared-place-block {
+  .place-block {
+    overflow-y: auto;
     margin-top: 20px;
   }
 `;
@@ -96,6 +94,7 @@ const TopMenuWrapper = styled.div`
   }
 
   .feature-info {
+    height: 100%;
     margin-top: 20px;
   }
 `;
@@ -126,14 +125,29 @@ interface ISideBarProps {
   mapCenter: Coords;
   setMapCenter: (val: Coords) => void;
   handleAddPlaceAction: HandleAddPlaceAction;
+  setPlaceInfo: (val: IPlaceInfo) => void;
+
+  featureInfo: IFeatureInfo;
+  setFeatureInfo: (val: IFeatureInfo) => void;
 }
 
 const SideBar: React.FC<ISideBarProps> = (props) => {
-  const { toggleMenuStatus, isMenuOpen, places, selectPlaceIdAction, sharedPlaces, searchPlaceAction, searchPlaces, setMapCenter } = props;
+  const { 
+    toggleMenuStatus, 
+    isMenuOpen, 
+    places, 
+    selectPlaceIdAction, 
+    sharedPlaces, 
+    searchPlaceAction, 
+    searchPlaces, 
+    setMapCenter, 
+    setPlaceInfo,
+    featureInfo,
+    setFeatureInfo
+  } = props;
 
   const [modalType, setModalType] = React.useState<SideBarModalConsts | null>(null);
   const [isFavorites, setIsFavorites] = React.useState<boolean>(true);
-  const [featureInfo, setFeatureInfo] = React.useState<IFeatureInfo>({ show: false, data: null });
 
   const handleClick = async (id: number, type: SideBarModalConsts, setIsOpen: (val: boolean) => void) => {
     await selectPlaceIdAction(id);
@@ -200,7 +214,7 @@ const SideBar: React.FC<ISideBarProps> = (props) => {
               </TabWrapper>
             </div>
             {isFavorites ? (
-              <div className="favorite-place-block">
+              <div className="place-block">
                 {places?.map(place => (
                   <PlaceItem 
                     key={String(place.id)}
@@ -213,18 +227,28 @@ const SideBar: React.FC<ISideBarProps> = (props) => {
 										}}
 										onShareClick={() => {
 											handleClick(Number(place.id), SideBarModalConsts.SharePlace, setIsOpen);
-										}}
+                    }}
+                    onPlaceClick={() => {
+                      setPlaceInfo({ show: true, data: place });
+                      setMapCenter([place.latitude, place.longtitude]);
+                      toggleMenuStatus(false)
+                    }}
                   />
                 ))}
               </div>
             ) : (
-              <div className="shared-place-block">
+              <div className="place-block">
                 {sharedPlaces?.map(place => (
                   <SharePlaceItem 
                     key={String(place.id)}
                     place={place}
                     onDeleteClick={() => {
                       handleClick(Number(place.id), SideBarModalConsts.DeleteSharePlace, setIsOpen);
+                    }}
+                    onPlaceClick={async () => {
+                      setPlaceInfo({ show: true, data: place });
+                      setMapCenter([place.latitude, place.longtitude]);
+                      toggleMenuStatus(false)
                     }}
                   />
                 ))}

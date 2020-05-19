@@ -5,7 +5,7 @@ import {
   IStoreState,
   toggleMenuStatus,
   selectMenuStatus,
-  selectAllPlaces,
+  selectFavoritePlaces,
   selectPlaceIdAction,
   selectCurrentPlace,
   handleDeletePlaceAction,
@@ -23,7 +23,7 @@ import SideBarContainer from './SideBar';
 
 const mapStateToProps = (state: IStoreState) => ({
   isMenuOpen: selectMenuStatus(state),
-  places: selectAllPlaces(state),
+  places: selectFavoritePlaces(state),
   selectedPlace: selectCurrentPlace(state),
   allTags: selectAllTags(state),
   sharedPlaces: selectSharedPlaces(state),
