@@ -3,6 +3,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 
 import { RouteConst } from 'consts';
 import { styled } from 'theme';
+import { Coords } from 'types';
 
 import Map from '../Map';
 import SideBar from '../SideBar';
@@ -14,20 +15,6 @@ const Wrapper = styled.div`
 
   position: relative;
   overflow: hidden;
-
-  .burger-btn {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    z-index: 50;
-    display: flex;
-    align-items: center;
-
-    .search-field {
-      margin-left: 15px;
-      width: 250px;
-    }
-  }
 `;
 
 const OpacityLayout = styled.div`
@@ -45,12 +32,14 @@ interface IAuthorizedRoot {
 }
 
 const AuthorizedRoot: React.FC<IAuthorizedRoot> = ({ isMenuOpen, toggleMenuStatus }) => {
+  const [mapCenter, setMapCenter] = React.useState<Coords>([24.03354921447226, 49.83588835908614]);
+
   return (
     <Wrapper>
-      <SideBar />
+      <SideBar mapCenter={mapCenter} setMapCenter={setMapCenter}/>
       {isMenuOpen && <OpacityLayout onClick={() => toggleMenuStatus(false)}/>}
       <Switch>
-        <Route path={RouteConst.Map} component={Map}/>
+        <Route path={RouteConst.Map} render={() => <Map mapCenter={mapCenter} setMapCenter={setMapCenter}/>}/>
         <Redirect to={RouteConst.Map} />
       </Switch>
     </Wrapper>

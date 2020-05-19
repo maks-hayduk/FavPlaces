@@ -38,7 +38,8 @@ export const selectSearchPlaces = createSelector(
   ({ searchPlaceOptions }) => {
     return searchPlaceOptions.asMutable().map(place => ({
       label: place.place_name,
-      value: place.id
+      value: place.id,
+      data: place
     }));
   }
 );

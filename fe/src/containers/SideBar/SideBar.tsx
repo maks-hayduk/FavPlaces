@@ -12,11 +12,14 @@ import {
 	HandleSharePlaceAction,
   HandleDeleteSharedPlaceAction,
   SearchPlaceAction,
-  IFeature
+  IFeature,
+  HandleAddPlaceAction
 } from 'store';
 import { styled } from 'theme';
+import { Coords } from 'types';
 
 import { renderModalByType, SideBarModalConsts } from './Modals/Main';
+import { FeatureInfo } from './FeatureInfo';
 
 const TabWrapper = styled.div<{ isActive: boolean }>`
 	width: 72px;
@@ -75,6 +78,33 @@ const Wrapper = styled.div<IWrapperProps>`
   }
 `;
 
+const TopMenuWrapper = styled.div`
+  position: absolute;
+  padding: 20px;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+
+  .search-field {
+    margin-left: 15px;
+    width: 250px;
+  }
+
+  .menu-top-bar {
+    display: flex;
+    align-items: center;
+  }
+
+  .feature-info {
+    margin-top: 20px;
+  }
+`;
+
+export interface IFeatureInfo { 
+  show: boolean;
+  data: IFeature | null;
+}
+
 interface ISideBarProps {
   isMenuOpen: boolean;
   toggleMenuStatus: ToggleMenuStatus;
@@ -93,13 +123,17 @@ interface ISideBarProps {
   
   searchPlaceAction: SearchPlaceAction;
   searchPlaces: any[];
+  mapCenter: Coords;
+  setMapCenter: (val: Coords) => void;
+  handleAddPlaceAction: HandleAddPlaceAction;
 }
 
 const SideBar: React.FC<ISideBarProps> = (props) => {
-  const { toggleMenuStatus, isMenuOpen, places, selectPlaceIdAction, sharedPlaces, searchPlaceAction, searchPlaces } = props;
+  const { toggleMenuStatus, isMenuOpen, places, selectPlaceIdAction, sharedPlaces, searchPlaceAction, searchPlaces, setMapCenter } = props;
 
   const [modalType, setModalType] = React.useState<SideBarModalConsts | null>(null);
   const [isFavorites, setIsFavorites] = React.useState<boolean>(true);
+  const [featureInfo, setFeatureInfo] = React.useState<IFeatureInfo>({ show: false, data: null });
 
   const handleClick = async (id: number, type: SideBarModalConsts, setIsOpen: (val: boolean) => void) => {
     await selectPlaceIdAction(id);
@@ -113,29 +147,45 @@ const SideBar: React.FC<ISideBarProps> = (props) => {
       renderComponentContent={(_, setIsOpen) => (
         <>
           {!isMenuOpen && (
-            <div className="burger-btn">
-              <BurgerIcon onClick={() => toggleMenuStatus(true)} />
-              <Formik
-                initialValues={{ search: '' }}
-                onSubmit={() => {}}
-              >
-                {({ setFieldValue }) => (
-                  <Field
-                    className="search-field"
-                    name="search"
-                    component={SelectField}
-                    placeholder="Search for place"
-                    onInputChange={(value: string) => {
-                      if (value?.length > 2) {
-                        searchPlaceAction(value);
-                      }
-                      setFieldValue('search', value);
-                    }}
-                    options={searchPlaces}
+            <TopMenuWrapper>
+              <div className="menu-top-bar">
+                <BurgerIcon onClick={() => toggleMenuStatus(true)} />
+                <Formik
+                  initialValues={{ search: '' }}
+                  onSubmit={() => {}}
+                >
+                  {({ setFieldValue }) => (
+                    <Field
+                      className="search-field"
+                      name="search"
+                      component={SelectField}
+                      placeholder="Search for place"
+                      onInputChange={(value: string) => {
+                        if (value?.length > 2) {
+                          searchPlaceAction(value);
+                        }
+                        setFieldValue('search', value);
+                      }}
+                      onChange={(value: any) => {
+                        setMapCenter(value.data.center);
+                        setFeatureInfo({ show: true, data: value.data });
+                      }}
+                      options={searchPlaces}
+                    />
+                  )}
+                </Formik>
+              </div>
+              {featureInfo.show && (
+                <div className="feature-info">
+                  <FeatureInfo 
+                    tags={props.allTags}
+                    feature={featureInfo.data}
+                    setFeatureInfo={setFeatureInfo}
+                    handleAddPlaceAction={props.handleAddPlaceAction}
                   />
-                )}
-              </Formik>
-            </div>
+                </div>
+              )}
+            </TopMenuWrapper>
           )}
           <Wrapper isMenuOpen={isMenuOpen}>
             <div className="close-side-bar-btn" onClick={() => toggleMenuStatus(false)}>

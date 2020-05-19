@@ -15,7 +15,8 @@ import {
   selectSharedPlaces,
   handleDeleteSharedPlaceAction,
   searchPlaceAction,
-  selectSearchPlaces
+  selectSearchPlaces,
+  handleAddPlaceAction
 } from 'store';
 
 import SideBarContainer from './SideBar';
@@ -38,7 +39,8 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
       handleUpdatePlaceAction,
       handleSharePlaceAction,
       handleDeleteSharedPlaceAction,
-      searchPlaceAction
+      searchPlaceAction,
+      handleAddPlaceAction
     },
     dispatch
   );

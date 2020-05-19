@@ -13,6 +13,7 @@ interface ISelectField {
   placeholder: string;
   className?: string;
   onInputChange?: (val: string) => void;
+  onChange?: (val: any) => void;
 }
 
 export const CreatableSelectField: React.FC<ISelectField & FieldProps> = ({ options, field, form, className, placeholder }) => (
@@ -34,7 +35,7 @@ export const CreatableSelectField: React.FC<ISelectField & FieldProps> = ({ opti
   />
 );
 
-export const SelectField: React.FC<ISelectField & FieldProps> = ({ options, className, onInputChange, placeholder }) => (
+export const SelectField: React.FC<ISelectField & FieldProps> = ({ options, className, onInputChange, placeholder, onChange }) => (
   <Select
     className={className}
     isClearable={false}
@@ -45,6 +46,11 @@ export const SelectField: React.FC<ISelectField & FieldProps> = ({ options, clas
     onInputChange={(value: string) => {
       if (onInputChange) {
         onInputChange(value);
+      }
+    }}
+    onChange={(value) => {
+      if (onChange) {
+        onChange(value);
       }
     }}
   />

@@ -18,6 +18,8 @@ interface IMapContainer {
   allTags: IAllTagsSelect;
   getTagsAction: GetTagsAction;
   getSharedPlacesAction: GetSharedPlacesAction;
+  mapCenter: Coords;
+  setMapCenter: (val: Coords) => void;
 }
 
 const MapContainer: React.FC<IMapContainer> = ({ 
@@ -25,9 +27,10 @@ const MapContainer: React.FC<IMapContainer> = ({
   getPlacesAction, 
   allTags, 
   getTagsAction,
-  getSharedPlacesAction
+  getSharedPlacesAction,
+  mapCenter,
+  setMapCenter
 }) => {
-  const [mapCenter, setMapCenter] = React.useState<Coords>([24.03354921447226, 49.83588835908614]);
   const [coords, setCoords] = React.useState<[number, number] | null>(null);
 
   React.useEffect(() => {
