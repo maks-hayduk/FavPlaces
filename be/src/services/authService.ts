@@ -53,7 +53,8 @@ class AuthService implements IAuthService {
         if (await bcrypt.compare(req.body.password, user.password)) {
           const token = jwt.sign(
             { 
-              name: user.name, 
+              name: user.name,
+              email: req.body.email, 
               id: user.id, 
               role: user.role 
             }, 

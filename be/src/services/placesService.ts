@@ -18,16 +18,16 @@ interface ITag {
 class PlacesService implements IPlacesService {
   addPlace = (req: IRequest, res: IResponse) => {
     const { id } = req.decoded;
-    const { latitude, longtitude, title, datetime, tags } = req.body;
+    const { latitude, longtitude, title, datetime, description, tags } = req.body;
 
     if (!id) {
       res.status(405).send('Method Not Allowed');
     }
 
-    const values = [id, latitude, longtitude, title, datetime];
+    const values = [id, latitude, longtitude, title, datetime, description];
 
     pool.query(
-      'INSERT INTO places(userId, latitude, longtitude, title, datetime) VALUES ($1, $2, $3, $4, $5)', 
+      'INSERT INTO places(userId, latitude, longtitude, title, datetime, description) VALUES ($1, $2, $3, $4, $5, $6)', 
       values, 
       (error, result) => {
         if (error) {
