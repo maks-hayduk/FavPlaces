@@ -27,6 +27,7 @@ app.post('/api/shared-places/:id', middleware.checkToken, sharedPlacesService.sh
 app.delete('/api/shared-places/:id', middleware.checkToken, sharedPlacesService.deleteSharedPlace);
 
 app.get('/api/user', middleware.checkToken, userService.getUser);
+app.put('/api/user', middleware.checkToken, userService.updateUser);
 
 app.get('/api/tags', tagsService.getAllTags);
 
