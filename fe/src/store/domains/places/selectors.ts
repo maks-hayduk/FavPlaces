@@ -2,11 +2,22 @@ import { createSelector } from 'reselect';
 
 import { IStoreState } from 'store';
 
+import { selectTags } from '../tags';
+
 const selectPlaces = (state: IStoreState) => state.places;
 
 export const selectFavoritePlaces = createSelector(
   selectPlaces, 
-  (places) => places.data.asMutable()
+  selectTags,
+  ({ data }, { filteredTags }) => {
+    if (filteredTags && (!filteredTags.length || !filteredTags)) {
+      return data.asMutable();
+    }
+
+    const filters = filteredTags.map(el => el.id);
+
+    return data.asMutable().filter(el => el.tags?.every(tag => filters.includes(Number(tag.id))));
+  }
 );
 
 export const selectCurrentPlace = createSelector(
@@ -30,7 +41,16 @@ export const selectCurrentPlace = createSelector(
 
 export const selectSharedPlaces = createSelector(
   selectPlaces,
-  ({ shared }) => shared.asMutable()
+  selectTags,
+  ({ shared }, { filteredTags }) => {
+    if (filteredTags && (!filteredTags.length || !filteredTags)) {
+      return shared.asMutable();
+    }
+
+    const filters = filteredTags.map(el => el.id);
+
+    return shared.asMutable().filter(el => el.tags?.every(tag => filters.includes(Number(tag.id))));
+  }
 );
 
 export const selectSearchPlaces = createSelector(

@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 import { IStoreState } from 'store';
 import { IOptionType } from 'types';
 
-const selectTags = (state: IStoreState) => state.tags;
+export const selectTags = (state: IStoreState) => state.tags;
 
 export type IAllTagsSelect = IOptionType[];
 
@@ -18,4 +18,9 @@ export const selectAllTags = createSelector(
 
     return data;
   }
+);
+
+export const selectFilteredTags = createSelector(
+  selectTags,
+  ({ filteredTags }) => filteredTags.asMutable()
 );

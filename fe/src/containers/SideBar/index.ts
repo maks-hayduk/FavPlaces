@@ -16,7 +16,9 @@ import {
   handleDeleteSharedPlaceAction,
   searchPlaceAction,
   selectSearchPlaces,
-  handleAddPlaceAction
+  handleAddPlaceAction,
+  setFilteredTagsAction,
+  selectFilteredTags
 } from 'store';
 
 import SideBarContainer from './SideBar';
@@ -27,7 +29,8 @@ const mapStateToProps = (state: IStoreState) => ({
   selectedPlace: selectCurrentPlace(state),
   allTags: selectAllTags(state),
   sharedPlaces: selectSharedPlaces(state),
-  searchPlaces: selectSearchPlaces(state)
+  searchPlaces: selectSearchPlaces(state),
+  filteredTags: selectFilteredTags(state)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
@@ -40,7 +43,8 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
       handleSharePlaceAction,
       handleDeleteSharedPlaceAction,
       searchPlaceAction,
-      handleAddPlaceAction
+      handleAddPlaceAction,
+      setFilteredTagsAction
     },
     dispatch
   );

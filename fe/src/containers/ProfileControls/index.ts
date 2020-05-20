@@ -4,7 +4,8 @@ import { bindActionCreators, Dispatch } from 'redux';
 import {
   IStoreState,
   handleLogoutAction,
-  selectUserData
+  selectUserData,
+  handleUpdateUserAction
 } from 'store';
 
 import ProfileControlsContainer from './ProfileControls';
@@ -16,7 +17,8 @@ const mapStateToProps = (state: IStoreState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
-      handleLogoutAction
+      handleLogoutAction,
+      handleUpdateUserAction
     },
     dispatch
   );

@@ -52,9 +52,7 @@ interface IPlaceInfoPopUp {
   setPlaceInfo: (val: IPlaceInfo) => void;
 }
 
-export const PlaceInfoPopUp: React.FC<IPlaceInfoPopUp> = ({ placeInfo, setPlaceInfo }) => {
-  console.log(placeInfo)
-  
+export const PlaceInfoPopUp: React.FC<IPlaceInfoPopUp> = ({ placeInfo, setPlaceInfo }) => {  
   return placeInfo && (
     <Popup
       coordinates={[placeInfo.latitude, placeInfo.longtitude]}

@@ -13,7 +13,8 @@ import {
   HandleDeleteSharedPlaceAction,
   SearchPlaceAction,
   IFeature,
-  HandleAddPlaceAction
+  HandleAddPlaceAction,
+  SetFilteredTagsAction
 } from 'store';
 import { styled } from 'theme';
 import { Coords } from 'types';
@@ -59,20 +60,30 @@ const Wrapper = styled.div<IWrapperProps>`
 
   .close-side-bar-btn {
     cursor: pointer;
-    position: absolute;
-    right: 20px;
-    top: 20px;
+    padding-left: 15px;
 	}
 	
 	.tabs {
 		display: flex;
 		justify-content: space-around;
-		margin-top: 50px;
+    margin-top: 20px;
 	}
 
   .place-block {
     overflow-y: auto;
     margin-top: 20px;
+  }
+
+  .align-filters {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .no-places-found {
+    margin-top: 20px;
+    text-align: center;
   }
 `;
 
@@ -129,6 +140,8 @@ interface ISideBarProps {
 
   featureInfo: IFeatureInfo;
   setFeatureInfo: (val: IFeatureInfo) => void;
+  setFilteredTagsAction: SetFilteredTagsAction;
+  filteredTags: any[];
 }
 
 const SideBar: React.FC<ISideBarProps> = (props) => {
@@ -143,7 +156,9 @@ const SideBar: React.FC<ISideBarProps> = (props) => {
     setMapCenter, 
     setPlaceInfo,
     featureInfo,
-    setFeatureInfo
+    setFeatureInfo,
+    setFilteredTagsAction,
+    filteredTags
   } = props;
 
   const [modalType, setModalType] = React.useState<SideBarModalConsts | null>(null);
@@ -202,8 +217,31 @@ const SideBar: React.FC<ISideBarProps> = (props) => {
             </TopMenuWrapper>
           )}
           <Wrapper isMenuOpen={isMenuOpen}>
-            <div className="close-side-bar-btn" onClick={() => toggleMenuStatus(false)}>
-              <DoubleShewron />
+            <div className="align-filters">
+              <div style={{ width: '100%' }}>
+                <Formik
+                  initialValues={{ tagFilter: filteredTags }}
+                  onSubmit={() => {}}
+                  enableReinitialize={true}
+                >
+                  <Field
+                    name="tagFilter"
+                    component={SelectField}
+                    placeholder="Filter by tag"
+                    isMulti={true}
+                    isClearable={true}
+                    closeMenuOnSelect={false}
+                    options={props.allTags}
+                    onChange={(options: any[]) => {
+                      console.log(options)
+                      setFilteredTagsAction(options);
+                    }}
+                  />
+                </Formik>
+              </div>
+              <div className="close-side-bar-btn" onClick={() => toggleMenuStatus(false)}>
+                <DoubleShewron />
+              </div>
             </div>
             <div className="tabs">
               <TabWrapper isActive={isFavorites} onClick={() => setIsFavorites(true)}>
@@ -215,7 +253,7 @@ const SideBar: React.FC<ISideBarProps> = (props) => {
             </div>
             {isFavorites ? (
               <div className="place-block">
-                {places?.map(place => (
+                {places?.length > 0 ? places?.map(place => (
                   <PlaceItem 
                     key={String(place.id)}
                     place={place}
@@ -234,11 +272,15 @@ const SideBar: React.FC<ISideBarProps> = (props) => {
                       toggleMenuStatus(false)
                     }}
                   />
-                ))}
+                )) : (
+                  <p className="no-places-found">
+                    No favorite places found
+                  </p>
+                )}
               </div>
             ) : (
               <div className="place-block">
-                {sharedPlaces?.map(place => (
+                {sharedPlaces?.length ? sharedPlaces?.map(place => (
                   <SharePlaceItem 
                     key={String(place.id)}
                     place={place}
@@ -251,7 +293,11 @@ const SideBar: React.FC<ISideBarProps> = (props) => {
                       toggleMenuStatus(false)
                     }}
                   />
-                ))}
+                )) : (
+                  <p className="no-places-found">
+                    No Shared places found
+                  </p>
+                )}
               </div>
             )}
           </Wrapper>

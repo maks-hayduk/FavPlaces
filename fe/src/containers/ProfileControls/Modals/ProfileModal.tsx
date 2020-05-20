@@ -3,7 +3,7 @@ import { Formik, Form, Field } from 'formik';
 
 import { H3, Button, TextButton, InputField } from 'components';
 import { styled } from 'theme';
-import { IUserDataSelect } from 'store';
+import { IUserDataSelect, HandleUpdateUserAction } from 'store';
 
 const Wrapper = styled.div`
   width: 500px;
@@ -34,16 +34,20 @@ interface IFormikValues {
   name: string;
   surname: string;
   email: string;
+  oldPassword: string;
+  newPassword: string;
 }
 
 interface IProfileModalProps {
   userData: IUserDataSelect;
   setIsOpen: (val: boolean) => void;
+  handleUpdateUserAction: HandleUpdateUserAction;
 }
 
 export const ProfileModal: React.FC<IProfileModalProps> = ({ 
   userData, 
   setIsOpen,
+  handleUpdateUserAction
 }) => {
   return userData.id ? (
     <Wrapper>
@@ -52,9 +56,12 @@ export const ProfileModal: React.FC<IProfileModalProps> = ({
         initialValues={{
           name: userData.name,
           surname: userData.surname,
-          email: userData.email
+          email: userData.email,
+          oldPassword: '',
+          newPassword: ''
         }}
         onSubmit={(values) => {
+          handleUpdateUserAction(values as any);
           setIsOpen(false);
         }}
       >
@@ -63,20 +70,34 @@ export const ProfileModal: React.FC<IProfileModalProps> = ({
             <Field
               component={InputField}
               label="Name"
-              placeholder="Input your name"
+              placeholder="Your name"
               name="name"
             />
             <Field
               component={InputField}
               label="Surname"
-              placeholder="Input your surname"
+              placeholder="Your surname"
               name="surname"
             />
             <Field
               component={InputField}
               label="Email"
-              placeholder="Input your email"
+              placeholder="Your email"
               name="email"
+            />
+            <Field
+              component={InputField}
+              label="Old password"
+              placeholder="Input your old password"
+              name="oldPassword"
+              type="password"
+            />
+            <Field
+              component={InputField}
+              label="New password"
+              placeholder="Input your new password"
+              name="newPassword"
+              type="password"
             />
             <div className="buttons">
               <Button type="submit">Update</Button>

@@ -102,7 +102,7 @@ const MapContainer: React.FC<IMapContainer> = ({
           />
         )}
         {featureInfo.show && featureInfo.data && (
-          <Layer type="symbol" layout={<div style={{ height: '20px', width: '20px', backgroundColor: 'red' }}/>}>
+          <Layer type="symbol" layout={{ 'icon-image': 'triangle-15', 'icon-size': 2 }}>
             <Feature
               coordinates={featureInfo.data.center} 
             />

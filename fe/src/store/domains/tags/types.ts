@@ -7,6 +7,7 @@ export interface ITagModel {
 
 export interface ITagsInitialState {
   data: ITagModel[];
+  filteredTags: ITagModel[];
 }
 
 export interface ITagsState extends ImmutableObject<ITagsInitialState> {}
