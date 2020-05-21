@@ -242,7 +242,6 @@ const SideBar: React.FC<ISideBarProps> = (props) => {
                     closeMenuOnSelect={false}
                     options={props.allTags}
                     onChange={(options: any[]) => {
-                      console.log(options)
                       setFilteredTagsAction(options);
                     }}
                   />

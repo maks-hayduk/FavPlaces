@@ -203,22 +203,17 @@ export type HandleDeleteImageAction = (placeId: number, imageId: number) => IThu
 
 export const handleDeleteImageAction: HandleDeleteImageAction = (placeId, imageId) => async (dispatch) => {
   try {
-    console.log(1)
     await dispatch(deleteImageAction(placeId, imageId));
-    console.log(2)
     dispatch(successNotifAction({
       title: 'Image was deleted'
     }));
-    console.log(3)
 
     return true;
   } catch (e) {
-    console.log(e)
     dispatch(errorNotifAction({
       title: 'Image was not deleted',
       message: 'Something went wrong'
     }));
-    console.log(5)
 
     return false;
   }

@@ -38,7 +38,7 @@ const Wrapper = styled.div`
       }
 
       .image {
-        max-height: 90vh;
+        max-height: 80vh;
         max-width: 70vw;
       }
     }
@@ -116,8 +116,8 @@ export const ImagesContainer: React.FC<IImagesContainerProps> = ({ placeImages, 
     const isDeleted = await handleDeleteImageAction(Number(placeImages.data?.id), selectedImage.id);
 
     if (await isDeleted) {
+      await setImageIndex(0);
       setAllImages(allImages!.filter(image => image.id !== selectedImage.id));
-      setImageIndex(0);
     }
   };
 

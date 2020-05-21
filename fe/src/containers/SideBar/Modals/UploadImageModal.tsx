@@ -64,7 +64,7 @@ export const UploadImageModal: React.FC<IUploadImageModalProps> = ({
           className="delete-button"
           onClick={async () => {
             await handleUploadImagesAction(images, Number(selectedPlace.id));
-            // setIsOpen(false);
+            setIsOpen(false);
           }}
         >
           Upload
