@@ -45,20 +45,34 @@ class UserService implements IUserService {
           res.status(400).send(error);
         }
 
-        const hashedPassword = await bcrypt.hash(newPassword, 10);
-        const oldHashed = await bcrypt.hash(oldPassword, 10);
-
         this._getCurrentUser(id, async (err, val) => {
           if (err) {
             res.status(400).send(err);
           }
-    
+
           const { password, ...userData } = val;
 
-          const isPassSame = await bcrypt.compare(oldHashed, password);
+          if (!newPassword || !oldPassword) {
+            res.status(200).send({
+              passwordChanged: false,
+              ...userData
+            });
+
+            return;
+          }
+
+          const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+          let isPassSame = false;
+  
+          try {
+            isPassSame = await bcrypt.compare(oldPassword, password);
+          } catch (e) {
+            res.status(400).send(e);
+          }
 
           if (isPassSame) {
-            pool.query('UPDATE users SET password=$1 WHERE id = $2', [hashedPassword, id], async (passError, passResult) => {
+            pool.query('UPDATE users SET password=$1 WHERE id = $2', [hashedPassword, id], async (_, passResult) => {
               res.status(200).send({
                 passwordChanged: true,
                 ...userData
@@ -69,6 +83,8 @@ class UserService implements IUserService {
               passwordChanged: false,
               ...userData
             });
+
+            return;
           }
     
           res.status(200).send(userData);

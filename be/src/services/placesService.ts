@@ -9,10 +9,20 @@ interface IPlacesService {
   getAllPlaces: (req: IRequest, res: IResponse) => void;
   updatePlace: (req: IRequest, res: IResponse) => void;
   deletePlace: (req: IRequest, res: IResponse) => void;
+  uploadImages: (req: IRequest, res: IResponse) => void;
+  deleteImage: (req: IRequest, res: IResponse) => void;
 }
 
 interface ITag {
   id: number;
+}
+
+interface IImage {
+  id?: number;
+  name: string;
+  type: string;
+  size: string;
+  base64: string;
 }
 
 class PlacesService implements IPlacesService {
@@ -57,9 +67,10 @@ class PlacesService implements IPlacesService {
 
     pool.query(
       `
-        SELECT places.id, latitude, longtitude, title, description, datetime, tagid, label FROM places 
+        SELECT places.id, latitude, longtitude, title, description, datetime, tagid, label, base64, size, type, name, pi.id as imageId FROM places 
           LEFT JOIN placestags p on places.id = p.placeId 
           LEFT JOIN tags on p.tagid = tags.id
+          LEFT JOIN placesimages pi on pi.placeid = p.placeId
         WHERE userid = $1;
       `, [id], (error, result) => {
         if (error) {
@@ -124,6 +135,51 @@ class PlacesService implements IPlacesService {
         });
       }
     );
+  }
+
+  uploadImages = (req: IRequest, res: IResponse) => {
+    const { id } = req.decoded;
+    const { id: placeId } = req.params;
+    const images: IImage[] = req.body;
+
+    if (!id) {
+      res.status(405).send('Method Not Allowed');
+    }
+
+    for (let i = 0; i < images.length; i += 1) {
+      const { name, type, size, base64 } = images[i];
+      const values = [placeId, name, type, size, base64];
+
+      pool.query(
+        'INSERT INTO placesimages(placeid, name, type, size, base64) VALUES($1, $2, $3, $4, $5)', 
+        values, (_e, _v) => {
+          if (i === images.length - 1) {
+            pool.query(
+              'SELECT * FROM placesimages WHERE placeid=$1', [placeId], (error, value) => {
+                res.status(201).send(value.rows);
+              } 
+            );
+          }
+        }
+      );
+    }
+  }
+
+  deleteImage = (req: IRequest, res: IResponse) => {
+    const { id } = req.decoded;
+    const { placeId, imageId } = req.params;
+
+    if (!id) {
+      res.status(405).send('Method Not Allowed');
+    }
+
+    pool.query('DELETE FROM placesimages WHERE id=$1 and placeid = $2', [imageId, placeId], (error, value) => {
+      if (error) {
+        res.status(400).send(error);
+      }
+
+      res.status(201).send({});
+    });
   }
 
   private _getLastRecordId = (callback: (err: {}, result: {}) => void) => {
