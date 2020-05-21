@@ -56,6 +56,37 @@ const placesReducer = (state = placesInitialState, action: IPlacesActionTypes) =
     case PlacesActionTypeKeys.SEARCH_PLACE_FULFILLED:
       return state.set('searchPlaceOptions', action.payload.features);
 
+    case PlacesActionTypeKeys.UPLOAD_IMAGES_FULFILLED: {
+      const placeId = action.meta;
+
+      const oldPlace = state.data.find(place => place.id === placeId);
+      
+      if (oldPlace) {
+        const placeIndex = state.data.indexOf(oldPlace);
+
+        return state.setIn(['data', String(placeIndex)], { ...oldPlace, images: action.payload });
+      }
+
+      return state;
+    }
+
+    case PlacesActionTypeKeys.DELETE_IMAGE_FULFILLED: {
+      const { imageId, placeId } = action.meta!;
+
+      const place = state.data.find(placeMap => placeMap.id === placeId);
+      
+      if (place) {
+        const placeIndex = state.data.indexOf(place);
+
+        return state.setIn(['data', String(placeIndex)], {
+          ...place,
+          images: place.images?.filter(image => image.id !== imageId)
+        });
+      }
+
+      return state;
+    }
+
     default:
       return state;
   }

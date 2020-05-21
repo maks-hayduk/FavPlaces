@@ -119,3 +119,50 @@ export const ShareAllIcon: React.FC<IIconSharedProps> = (props) => (
     </svg>
   </ActionIconWrapper>
 );
+
+export const AddImageIcon: React.FC<IIconSharedProps> = (props) => (
+  <ActionIconWrapper {...props}>
+    <svg viewBox="0 0 24 24" fill="#1B98E0" width="20px" height="20px">
+      <path d="M0 0h24v24H0z" fill="none"/>
+      <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9h-4v4h-2v-4H9V9h4V5h2v4h4v2z"/>
+    </svg>
+  </ActionIconWrapper>
+);
+
+export const ShowImagesIcon: React.FC<IIconSharedProps> = (props) => (
+  <ActionIconWrapper {...props}>
+    <svg viewBox="0 0 24 24" fill="#1B98E0" width="20px" height="20px">
+      <path d="M0 0h24v24H0z" fill="none"/>
+      <path d="M2 6H0v5h.01L0 20c0 1.1.9 2 2 2h18v-2H2V6zm20-2h-8l-2-2H6c-1.1 0-1.99.9-1.99 2L4 16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM7 15l4.5-6 3.5 4.51 2.5-3.01L21 15H7z"/>
+    </svg>
+  </ActionIconWrapper>
+);
+
+export const ArrowRightIcon: React.FC<IIconSharedProps> = (props) => (
+  <svg viewBox="0 0 24 24" fill="white" width="48px" height="48px" {...props}>
+    <path d="M0 0h24v24H0V0z" fill="none"/>
+    <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+  </svg>
+);
+
+export const ArrowLeftIcon: React.FC<IIconSharedProps> = (props) => (
+  <svg viewBox="0 0 24 24" fill="white" width="48px" height="48px" {...props}>
+    <path d="M0 0h24v24H0V0z" fill="none"/>
+    <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/>
+  </svg>
+);
+
+export const DeleteItemIcon: React.FC<IIconSharedProps> = (props) => (
+  <svg viewBox="0 0 24 24" fill="red" width="36px" height="36px" {...props}>
+    <path d="M0 0h24v24H0V0z" fill="none"/>
+    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"/>
+    <path d="M0 0h24v24H0z" fill="none"/>
+  </svg>
+);
+
+export const ExitIcon: React.FC<IIconSharedProps> = (props) => (
+  <svg viewBox="0 0 24 24" fill="white" width="28px" height="28px" {...props}>
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67l-2.58 2.59zM19 3H5c-1.11 0-2 .9-2 2v4h2V5h14v14H5v-4H3v4c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
+  </svg>
+);

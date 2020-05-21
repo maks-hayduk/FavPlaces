@@ -7,7 +7,8 @@ import {
   selectNotifications,
   handleTokenLoginAction,
   selectUserData,
-  toggleMenuStatus
+  toggleMenuStatus,
+  handleDeleteImageAction
 } from 'store';
 
 import RootContainer from './Root';
@@ -22,7 +23,8 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
       handleTokenLoginAction,
-      toggleMenuStatus
+      toggleMenuStatus,
+      handleDeleteImageAction
     },
     dispatch
   );

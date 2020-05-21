@@ -4,12 +4,14 @@ import { DeletePlaceModal } from './DeletePlaceModal';
 import { SharePlaceModal } from './SharePlaceModal';
 import { UpdatePlaceModal } from './UpdatePlaceModal';
 import { DeleteSharePlaceModal } from './DeleteSharePlaceModal';
+import { UploadImageModal } from './UploadImageModal';
 
 export enum SideBarModalConsts {
   DeletePlace = 'deletePlace',
   UpdatePlace = 'updatePlace',
   SharePlace = 'sharePlace',
-  DeleteSharePlace = 'deleteSharePlace'
+  DeleteSharePlace = 'deleteSharePlace',
+  UploadImage = 'uploadImage'
 }
 
 export const renderModalByType = (type: SideBarModalConsts | null, props: any) => {
@@ -25,6 +27,9 @@ export const renderModalByType = (type: SideBarModalConsts | null, props: any) =
 
     case SideBarModalConsts.DeleteSharePlace:
       return <DeleteSharePlaceModal {...props} />;
+
+    case SideBarModalConsts.UploadImage:
+      return <UploadImageModal {...props} />;
 
     default:
       return <></>;

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { ControlWrapper, Modal } from 'components';
+import { ControlWrapper, Modal, ExitIcon } from 'components';
 import { styled } from 'theme';
 import { HandleLogoutAction, IUserDataSelect, HandleUpdateUserAction } from 'store';
 
@@ -16,6 +16,10 @@ const ProfileControlsWrapper = styled.div`
 
   .profile-btn {
     margin-right: 10px;
+  }
+
+  .exit-button {
+    padding: 0 5px;
   }
 `;
 
@@ -44,7 +48,13 @@ const ProfileControls: React.FC<IProfileControlsProps> = (props) => {
           >
             Profile
           </ControlWrapper>
-          <ControlWrapper isDanger={true} onClick={handleLogoutAction}>exit</ControlWrapper>
+          <ControlWrapper 
+            className="exit-button"
+            isDanger={true} 
+            onClick={handleLogoutAction}
+          >
+            <ExitIcon />
+          </ControlWrapper>
         </ProfileControlsWrapper>
       )}
     />

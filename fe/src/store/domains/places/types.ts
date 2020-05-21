@@ -2,6 +2,14 @@ import { ImmutableObject } from 'seamless-immutable';
 
 import { IOptionType } from 'types';
 
+export interface IImageInfo {
+  id: number;
+  base64: string;
+  name: string;
+  size: string;
+  type: string;
+}
+
 export interface IFeature {
   id: string;
   center: [number, number];
@@ -26,6 +34,7 @@ export interface IPlaceModel {
   datetime: string;
   tags: IOptionType[] | null;
   description?: string;
+  images?: IImageInfo[];
 }
 
 export interface ISharePlaceModel extends IPlaceModel {

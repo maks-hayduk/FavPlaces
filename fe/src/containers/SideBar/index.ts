@@ -18,7 +18,8 @@ import {
   selectSearchPlaces,
   handleAddPlaceAction,
   setFilteredTagsAction,
-  selectFilteredTags
+  selectFilteredTags,
+  handleUploadImagesAction
 } from 'store';
 
 import SideBarContainer from './SideBar';
@@ -44,7 +45,8 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
       handleDeleteSharedPlaceAction,
       searchPlaceAction,
       handleAddPlaceAction,
-      setFilteredTagsAction
+      setFilteredTagsAction,
+      handleUploadImagesAction
     },
     dispatch
   );

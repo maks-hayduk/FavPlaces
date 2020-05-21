@@ -24,6 +24,9 @@ const userReducer = (state = userInitialState, action: UserActionTypes) => {
     case UserActionTypeKeys.GET_DETAILS_FULFILLED:
       return state.merge(action.payload);
 
+    case UserActionTypeKeys.UPDATE_USER_FULFILLED: 
+      return state.merge(action.payload);
+
     case AuthActionTypeKeys.LOG_OUT: 
       return userInitialState;
 

@@ -8,3 +8,5 @@ export * from './PlaceItem';
 export * from './Modal';
 export * from './SharePlaceItem';
 export * from './TagWrapper';
+export * from './FIleToBase64';
+export * from './ImagesContainer';

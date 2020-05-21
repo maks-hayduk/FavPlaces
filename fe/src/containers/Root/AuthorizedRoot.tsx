@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
+import { ImagesContainer } from 'components';
 import { RouteConst } from 'consts';
 import { styled } from 'theme';
 import { Coords } from 'types';
-import { ToggleMenuStatus } from 'store';
+import { ToggleMenuStatus, HandleDeleteImageAction } from 'store';
 
 import Map from '../Map';
 import SideBar from '../SideBar';
@@ -33,12 +34,14 @@ const OpacityLayout = styled.div`
 interface IAuthorizedRoot {
   isMenuOpen: boolean;
   toggleMenuStatus: ToggleMenuStatus;
+  handleDeleteImageAction: HandleDeleteImageAction;
 }
 
-const AuthorizedRoot: React.FC<IAuthorizedRoot> = ({ isMenuOpen, toggleMenuStatus }) => {
+const AuthorizedRoot: React.FC<IAuthorizedRoot> = ({ isMenuOpen, toggleMenuStatus, handleDeleteImageAction }) => {
   const [mapCenter, setMapCenter] = React.useState<Coords>([24.03354921447226, 49.83588835908614]);
   const [placeInfo, setPlaceInfo] = React.useState<IPlaceInfo>({ show: false, data: null });
   const [featureInfo, setFeatureInfo] = React.useState<IFeatureInfo>({ show: false, data: null });
+  const [placeImages, setPlaceImages] = React.useState<IPlaceInfo>({ show: false, data: null });
 
   return (
     <Wrapper>
@@ -48,9 +51,17 @@ const AuthorizedRoot: React.FC<IAuthorizedRoot> = ({ isMenuOpen, toggleMenuStatu
         setPlaceInfo={setPlaceInfo}
         featureInfo={featureInfo}
         setFeatureInfo={setFeatureInfo}
+        setPlaceImages={setPlaceImages}
       />
       {isMenuOpen && <OpacityLayout onClick={() => toggleMenuStatus(false)}/>}
       <ProfileControls />
+      {placeImages.show && 
+        <ImagesContainer 
+          placeImages={placeImages} 
+          setPlaceImages={setPlaceImages}
+          handleDeleteImageAction={handleDeleteImageAction}
+        />
+      }
       <Switch>
         <Route path={RouteConst.Map} render={() => 
           <Map 

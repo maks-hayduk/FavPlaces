@@ -2,7 +2,7 @@ import  * as React from 'react';
 
 import { styled } from 'theme';
 import { IPlaceModel } from 'store';
-import { H3, TextButton, EditIcon, ShareIcon, TagWrapper } from 'components';
+import { H3, TextButton, EditIcon, ShareIcon, TagWrapper, AddImageIcon, ShowImagesIcon } from 'components';
 
 interface IWrapperProps {
   enableToggleDescription: boolean;
@@ -22,6 +22,7 @@ const Wrapper = styled.div<IWrapperProps>`
   .align-header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
     .action-icons {
       display: flex;
@@ -66,9 +67,11 @@ interface IPlaceItemProps {
   onUpdateClick: () => void;
   onShareClick: () => void;
   onPlaceClick: () => void;
+  addPictureClick: () => void;
+  showPicturesClick: () => void;
 }
 
-export const PlaceItem: React.FC<IPlaceItemProps> = ({ place, onDeleteClick, onUpdateClick, onShareClick, onPlaceClick }) => {
+export const PlaceItem: React.FC<IPlaceItemProps> = ({ place, onDeleteClick, onUpdateClick, onShareClick, onPlaceClick, addPictureClick, showPicturesClick }) => {
   const [isExpanded, setIsExpanded] = React.useState<boolean>(false);
 
   const enableToggleDescription = React.useMemo((): boolean => {
@@ -80,9 +83,15 @@ export const PlaceItem: React.FC<IPlaceItemProps> = ({ place, onDeleteClick, onU
       <div className="place-info-block">
         <div className="align-header">
           <H3>{place.title}</H3>
-          <div className="action-icons">
-            <EditIcon onClick={onUpdateClick}/>
-            <ShareIcon onClick={onShareClick}/>
+          <div>
+            <div className="action-icons">
+              <EditIcon onClick={onUpdateClick}/>
+              <ShareIcon onClick={onShareClick}/>
+            </div>
+            <div className="action-icons">
+              <AddImageIcon onClick={addPictureClick}/>
+              <ShowImagesIcon onClick={showPicturesClick}/>
+            </div>
           </div>
         </div>
         {place.tags && (

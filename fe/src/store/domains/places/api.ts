@@ -1,5 +1,6 @@
 import config from 'config';
 import { apiClientService, mapApiService } from 'services';
+import { IFileInfo } from 'types';
 
 import { IPlaceModel } from './types';
 
@@ -21,3 +22,8 @@ export const deleteSharedPlace = (placeId: number) => apiClientService.delete(`/
 
 export const searchPlace = (placeName: string) =>
   mapApiService.get(`/geocoding/v5/mapbox.places/${encodeURI(placeName)}.json?access_token=${config.mapBoxKey}&cachebuster=1589830226430&autocomplete=true`);
+
+export const uploadImages = (files: IFileInfo[], placeId: number) => 
+  apiClientService.post(`/places/${placeId}/images`, { data: files });
+
+export const deleteImage = (placeId: number, imageId: number) => apiClientService.delete(`/places/${placeId}/images/${imageId}`);

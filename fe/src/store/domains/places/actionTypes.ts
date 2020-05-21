@@ -1,6 +1,6 @@
 import { IPromiseAction } from 'types';
 
-import { IPlaceModel, ISearchPlaceResponse } from './types';
+import { IPlaceModel, ISearchPlaceResponse, IImageInfo } from './types';
 
 export enum PlacesActionTypeKeys {
   ADD_PLACE = 'places/ADD_PLACE',
@@ -28,6 +28,12 @@ export enum PlacesActionTypeKeys {
 
   SEARCH_PLACE = 'places/SEARCH_PLACE',
   SEARCH_PLACE_FULFILLED = 'places/SEARCH_PLACE_FULFILLED',
+
+  UPLOAD_IMAGES = 'places/UPLOAD_IMAGES',
+  UPLOAD_IMAGES_FULFILLED = 'places/UPLOAD_IMAGES_FULFILLED',
+
+  DELETE_IMAGE = 'places/DELETE_IMAGE',
+  DELETE_IMAGE_FULFILLED = 'places/DELETE_IMAGE_FULFILLED'
 }
 
 export interface ISetSelectedActionType {
@@ -83,6 +89,18 @@ export interface ISearchPlaceActionType
 export interface ISearchPlaceFulfilledActionType 
   extends IPromiseAction<PlacesActionTypeKeys.SEARCH_PLACE_FULFILLED, ISearchPlaceResponse> {}
 
+export interface IUploadImagesActionType 
+  extends IPromiseAction<PlacesActionTypeKeys.UPLOAD_IMAGES, Promise<IImageInfo[]>, number> {}
+
+export interface IUploadImagesFulfilledActionType 
+  extends IPromiseAction<PlacesActionTypeKeys.UPLOAD_IMAGES_FULFILLED, IImageInfo[], number> {}
+
+export interface IDeleteImageActionType 
+  extends IPromiseAction<PlacesActionTypeKeys.DELETE_IMAGE, Promise<{}>, { imageId: number, placeId: number }> {}
+
+export interface IDeleteImageFulfilledActionType 
+  extends IPromiseAction<PlacesActionTypeKeys.DELETE_IMAGE_FULFILLED, {}, { imageId: number, placeId: number }> {}
+
 export type IPlacesActionTypes =
   | IAddPlaceFulfilledActionType
   | IGetPlacesFulfilledActionType
@@ -92,4 +110,6 @@ export type IPlacesActionTypes =
   | ISharePlaceFulfilledActionType
   | IGetSharedPlacesFulfilledActionType
   | IDeleteSharedPlaceFulfilledActionType
-  | ISearchPlaceFulfilledActionType;
+  | ISearchPlaceFulfilledActionType
+  | IUploadImagesFulfilledActionType
+  | IDeleteImageFulfilledActionType;

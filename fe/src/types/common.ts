@@ -31,3 +31,10 @@ export interface IOptionType {
   label: string;
   value: string;
 }
+
+export interface IFileInfo {
+  name: string;
+  type: string;
+  size: string;
+  base64: string | null | ArrayBuffer;
+}

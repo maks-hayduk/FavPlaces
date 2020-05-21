@@ -1,4 +1,4 @@
-import { IThunk } from 'types';
+import { IThunk, IFileInfo } from 'types';
 
 import * as api from './api';
 import { 
@@ -11,7 +11,9 @@ import {
   ISharePlaceActionType,
   IGetSharedPlacesActionType,
   IDeleteSharedPlaceActionType,
-  ISearchPlaceActionType
+  ISearchPlaceActionType,
+  IUploadImagesActionType,
+  IDeleteImageActionType
 } from './actionTypes';
 import { IPlaceModel } from './types';
 
@@ -161,3 +163,63 @@ export const searchPlaceAction: SearchPlaceAction = (placeName) => ({
   type: PlacesActionTypeKeys.SEARCH_PLACE,
   payload: api.searchPlace(placeName)
 });
+
+export type UploadImagesAction = (images: IFileInfo[], placeId: number) => IUploadImagesActionType;
+
+export const uploadImagesAction: UploadImagesAction = (images, placeId) => ({
+  type: PlacesActionTypeKeys.UPLOAD_IMAGES,
+  payload: api.uploadImages(images, placeId),
+  meta: placeId
+});
+
+export type HandleUploadImagesAction = (images: IFileInfo[], placeId: number) => IThunk<void>;
+
+export const handleUploadImagesAction: HandleUploadImagesAction = (images, placeId) => async (dispatch) => {
+  try {
+    await dispatch(uploadImagesAction(images, placeId));
+    dispatch(successNotifAction({
+      title: 'Image(s) were uploaded successfully'
+    }));
+  } catch (e) {
+    dispatch(errorNotifAction({
+      title: 'Image(s) were not uploaded',
+      message: 'Something went wrong'
+    }));
+  }
+};
+
+export type DeleteImageAction = (placeId: number, imageId: number) => IDeleteImageActionType;
+
+export const deleteImageAction: DeleteImageAction = (placeId, imageId) => ({
+  type: PlacesActionTypeKeys.DELETE_IMAGE,
+  payload: api.deleteImage(placeId, imageId),
+  meta: {
+    placeId,
+    imageId
+  }
+});
+
+export type HandleDeleteImageAction = (placeId: number, imageId: number) => IThunk<Promise<boolean>>;
+
+export const handleDeleteImageAction: HandleDeleteImageAction = (placeId, imageId) => async (dispatch) => {
+  try {
+    console.log(1)
+    await dispatch(deleteImageAction(placeId, imageId));
+    console.log(2)
+    dispatch(successNotifAction({
+      title: 'Image was deleted'
+    }));
+    console.log(3)
+
+    return true;
+  } catch (e) {
+    console.log(e)
+    dispatch(errorNotifAction({
+      title: 'Image was not deleted',
+      message: 'Something went wrong'
+    }));
+    console.log(5)
+
+    return false;
+  }
+};

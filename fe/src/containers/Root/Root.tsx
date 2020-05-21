@@ -5,7 +5,7 @@ import { Notification } from 'react-notification-system';
 import { Notifications } from 'components';
 import { RouteConst } from 'consts';
 import { styled } from 'theme';
-import { HandleTokenLoginAction, IUserDataSelect, ToggleMenuStatus } from 'store';
+import { HandleTokenLoginAction, IUserDataSelect, ToggleMenuStatus, HandleDeleteImageAction } from 'store';
 
 import AuthorizedRoot from './AuthorizedRoot';
 
@@ -23,9 +23,17 @@ interface IRoot {
   handleTokenLoginAction: HandleTokenLoginAction;
   userData: IUserDataSelect;
   toggleMenuStatus: ToggleMenuStatus;
+  handleDeleteImageAction: HandleDeleteImageAction;
 }
 
-const Root: React.FC<IRoot> = ({ isMenuOpen, notifications, handleTokenLoginAction, userData, toggleMenuStatus }) => {
+const Root: React.FC<IRoot> = ({ 
+  isMenuOpen, 
+  notifications, 
+  handleTokenLoginAction, 
+  userData, 
+  toggleMenuStatus,
+  handleDeleteImageAction
+}) => {
 
   React.useEffect(() => {
     handleTokenLoginAction();
@@ -41,6 +49,7 @@ const Root: React.FC<IRoot> = ({ isMenuOpen, notifications, handleTokenLoginActi
             <AuthorizedRoot 
               isMenuOpen={isMenuOpen}
               toggleMenuStatus={toggleMenuStatus}
+              handleDeleteImageAction={handleDeleteImageAction}
             />
           ) : null
           )} 

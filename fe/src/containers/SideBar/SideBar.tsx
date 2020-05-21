@@ -14,7 +14,8 @@ import {
   SearchPlaceAction,
   IFeature,
   HandleAddPlaceAction,
-  SetFilteredTagsAction
+  SetFilteredTagsAction,
+  HandleUploadImagesAction
 } from 'store';
 import { styled } from 'theme';
 import { Coords } from 'types';
@@ -46,6 +47,7 @@ const Wrapper = styled.div<IWrapperProps>`
   background-color: ${({ theme }) => theme.color.white};
   z-index: 100;
   padding: 15px;
+  padding-right: 0;
 
   ${({ isMenuOpen }) =>
     isMenuOpen
@@ -67,11 +69,14 @@ const Wrapper = styled.div<IWrapperProps>`
 		display: flex;
 		justify-content: space-around;
     margin-top: 20px;
+    padding-right: 15px;
 	}
 
   .place-block {
     overflow-y: auto;
     margin-top: 20px;
+    height: calc(100% - 110px);
+    padding-right: 15px;
   }
 
   .align-filters {
@@ -79,6 +84,7 @@ const Wrapper = styled.div<IWrapperProps>`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding-right: 15px;
   }
 
   .no-places-found {
@@ -142,6 +148,8 @@ interface ISideBarProps {
   setFeatureInfo: (val: IFeatureInfo) => void;
   setFilteredTagsAction: SetFilteredTagsAction;
   filteredTags: any[];
+  handleUploadImagesAction: HandleUploadImagesAction;
+  setPlaceImages: (val: IPlaceInfo) => void;
 }
 
 const SideBar: React.FC<ISideBarProps> = (props) => {
@@ -158,7 +166,8 @@ const SideBar: React.FC<ISideBarProps> = (props) => {
     featureInfo,
     setFeatureInfo,
     setFilteredTagsAction,
-    filteredTags
+    filteredTags,
+    setPlaceImages
   } = props;
 
   const [modalType, setModalType] = React.useState<SideBarModalConsts | null>(null);
@@ -269,7 +278,13 @@ const SideBar: React.FC<ISideBarProps> = (props) => {
                     onPlaceClick={() => {
                       setPlaceInfo({ show: true, data: place });
                       setMapCenter([place.latitude, place.longtitude]);
-                      toggleMenuStatus(false)
+                      toggleMenuStatus(false);
+                    }}
+                    addPictureClick={() => {
+                      handleClick(Number(place.id), SideBarModalConsts.UploadImage, setIsOpen);
+                    }}
+                    showPicturesClick={() => {
+                      setPlaceImages({ show: true, data: place })
                     }}
                   />
                 )) : (
