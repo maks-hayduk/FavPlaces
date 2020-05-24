@@ -4,6 +4,7 @@ import { Formik, Form, Field } from 'formik';
 import { H3, Button, TextButton, InputField } from 'components';
 import { styled } from 'theme';
 import { IPlaceModel, IUserDataSelect, HandleSharePlaceAction } from 'store';
+import { validationUtil } from 'utils';
 
 const Wrapper = styled.div`
   width: 350px;
@@ -64,16 +65,17 @@ export const SharePlaceModal: React.FC<ISharePlaceModal> = ({
           handleSharePlaceAction(Number(selectedPlace.id), values.email);    
         }}
       >
-        {() => (
+        {({ isSubmitting, isValid }) => (
           <Form>
             <Field
               component={InputField}
               label="Email"
               placeholder="Input email to share place"
               name="email"
+              validate={validationUtil.compose(validationUtil.required, validationUtil.email)}
             />
             <div className="buttons">
-              <Button type="submit">Share</Button>
+              <Button type="submit" disabled={isSubmitting || !isValid}>Share</Button>
               <TextButton onClick={() => setIsOpen(false)}>Cancel</TextButton>
             </div>
           </Form>

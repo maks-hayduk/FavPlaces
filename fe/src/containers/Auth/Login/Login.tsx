@@ -6,6 +6,7 @@ import { RouteConst } from 'consts';
 import { InputField, Button, TextButton, H3 } from 'components';
 import { styled } from 'theme';
 import { HandleLoginAction } from 'store';
+import { validationUtil } from 'utils';
 
 const LoginWrapper = styled.div`
   height: 100vh;
@@ -49,7 +50,7 @@ const LoginContainer: React.FC<ILoginContainer> = ({ handleLoginAction }) => {
         }}
         onSubmit={(values) => handleLoginAction(values)}
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, isValid }) => (
           <Form>
             <H3>Login</H3>
             <Field
@@ -57,6 +58,7 @@ const LoginContainer: React.FC<ILoginContainer> = ({ handleLoginAction }) => {
               label="Email"
               placeholder="Input your email"
               name="email"
+              validate={validationUtil.compose(validationUtil.required, validationUtil.email)}
             />
             <Field
               component={InputField}
@@ -64,9 +66,10 @@ const LoginContainer: React.FC<ILoginContainer> = ({ handleLoginAction }) => {
               placeholder="Input your password"
               name="password"
               type="password"
+              validate={validationUtil.required}
             />
             <div>
-              <Button type="submit" disabled={isSubmitting}>
+              <Button type="submit" disabled={isSubmitting || !isValid}>
                 Proceed
               </Button>
               <Link to={RouteConst.SignUp}>

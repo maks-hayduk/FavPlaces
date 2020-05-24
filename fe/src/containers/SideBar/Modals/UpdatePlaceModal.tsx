@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { Formik, Form, Field } from 'formik';
 
-import { H3, CancelButton, TextButton, InputField, TextAreaField, CreatableSelectField, Button } from 'components';
+import { H3, TextButton, InputField, TextAreaField, CreatableSelectField, Button } from 'components';
 import { styled } from 'theme';
-import { IPlaceModel, UpdatePlaceAction, IAllTagsSelect, HandleUpdatePlaceAction } from 'store';
+import { IPlaceModel, IAllTagsSelect, HandleUpdatePlaceAction } from 'store';
+import { validationUtil } from 'utils';
 
 const Wrapper = styled.div`
   width: 360px;
@@ -60,7 +61,7 @@ export const UpdatePlaceModal: React.FC<IUpdatePlaceModal> = ({
         enableReinitialize={true}
         onSubmit={(values) => {}}
       >
-        {({ values }) => (
+        {({ values, isSubmitting, isValid }) => (
           <Form>
             <Field
               autoComplete="off"
@@ -68,6 +69,7 @@ export const UpdatePlaceModal: React.FC<IUpdatePlaceModal> = ({
               label="Title"
               placeholder="Place name"
               name="title"
+              validate={validationUtil.required}
             />
             <Field
               className="add-place-tags"
@@ -85,6 +87,7 @@ export const UpdatePlaceModal: React.FC<IUpdatePlaceModal> = ({
             />
             <div className="buttons">
               <Button   
+                disabled={isSubmitting || !isValid}
                 type="button"
                 onClick={() => {
                   handleUpdatePlaceAction(Number(selectedPlace.id), { ...selectedPlace, ...values });

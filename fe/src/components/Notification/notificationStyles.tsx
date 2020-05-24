@@ -46,13 +46,6 @@ export const notificationStyles: object = {
       borderRadius: '2px',
       borderTop: `5px solid ${theme.color.red}`,
       boxShadow: `0px 0px 8px ${theme.color.gray}`
-    },
-
-    warning: {
-      backgroundColor: `${theme.color.white}`,
-      borderRadius: '2px',
-      borderTop: `4px solid ${theme.color.yellow}`,
-      boxShadow: `0px 0px 8px ${theme.color.gray}`
     }
   },
 

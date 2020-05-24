@@ -7,6 +7,7 @@ import { RouteConst } from 'consts';
 import { InputField, Button, IconTextButton, H3, PrimaryLeftArrowIcon } from 'components';
 import { styled } from 'theme';
 import { SignUpAction } from 'store';
+import { validationUtil } from 'utils';
 
 const LoginWrapper = styled.div`
   height: 100vh;
@@ -59,7 +60,7 @@ const LoginContainer: React.FC<ILoginContainer> = ({ signUpAction, pushUrl }) =>
           pushUrl(RouteConst.Login);
         }}
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, isValid }) => (
           <Form>
             <div className="back-btn"> 
               <Link to={RouteConst.Login}>
@@ -76,18 +77,21 @@ const LoginContainer: React.FC<ILoginContainer> = ({ signUpAction, pushUrl }) =>
               label="Name"
               placeholder="Input your name"
               name="name"
+              validate={validationUtil.required}
             />
             <Field
               component={InputField}
               label="Surname"
               placeholder="Input your surname"
               name="surname"
+              validate={validationUtil.required}
             />
             <Field
               component={InputField}
               label="Email"
               placeholder="Input your email"
               name="email"
+              validate={validationUtil.compose(validationUtil.required, validationUtil.email)}
             />
             <Field
               component={InputField}
@@ -95,8 +99,9 @@ const LoginContainer: React.FC<ILoginContainer> = ({ signUpAction, pushUrl }) =>
               placeholder="Input your password"
               name="password"
               type="password"
+              validate={validationUtil.required}
             />
-            <Button type="submit" disabled={isSubmitting}>
+            <Button type="submit" disabled={isSubmitting || !isValid}>
               Sign up
             </Button>
           </Form>

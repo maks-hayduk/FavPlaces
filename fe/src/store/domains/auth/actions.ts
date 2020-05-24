@@ -43,6 +43,8 @@ export const handleLoginAction: HandleLoginAction = (data) => async (dispatch, g
       apiClientService.setDefaultHeaders('Authorization', `Bearer ${value.token}`);
     }
 
+    dispatch(getDetailsAction());
+
     dispatch(successNotifAction({
       title: 'You have been successfully logged in'
     }));

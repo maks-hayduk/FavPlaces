@@ -8,6 +8,7 @@ import { DateFormatConst } from 'consts';
 import { InputField, Button, CreatableSelectField } from 'components';
 import { styled } from 'theme';
 import { IOptionType } from 'types';
+import { validationUtil } from 'utils';
 
 const StyledForm = styled(Form)`
   display: flex;
@@ -61,7 +62,7 @@ export const AddPlacePopup: React.FC<IAddPlacePopupProps> = ({ coordinates, onCl
           });
         }}
       >
-        {({ isSubmitting, values, handleSubmit }) => (
+        {({ isSubmitting, isValid, handleSubmit }) => (
           <StyledForm>
             <Field
               autoComplete="off"
@@ -69,6 +70,7 @@ export const AddPlacePopup: React.FC<IAddPlacePopupProps> = ({ coordinates, onCl
               label="Title"
               placeholder="Input your place name"
               name="title"
+              validate={validationUtil.required}
             />
             <Field
               className="add-place-tags"
@@ -81,7 +83,7 @@ export const AddPlacePopup: React.FC<IAddPlacePopupProps> = ({ coordinates, onCl
               type="button"
               className="add-place-btn" 
               onClick={() => handleSubmit()}
-              disabled={isSubmitting}
+              disabled={isSubmitting || !isValid}
             >
               Add place
             </Button>
